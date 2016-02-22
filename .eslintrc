@@ -1,0 +1,40 @@
+{
+    "rules": {
+        "block-scoped-var": 2,
+        "brace-style": [2, "stroustrup", { "allowSingleLine": true }],
+        "camelcase": 2,
+        "complexity": [2, 7],
+        "curly": [2, "all"],
+        "eqeqeq": [2, "allow-null"],
+        "indent": [2, 2, {"SwitchCase": 1}],
+        "key-spacing": [0, { align: "value" }],
+        "keyword-spacing": 2,
+        "no-dupe-keys": 2,
+        "no-irregular-whitespace": 2,
+        "no-multi-spaces": [2, { exceptions: { "Property": true } }],
+        "no-underscore-dangle": 0,
+        "no-use-before-define": 2,
+        "quote-props": [2, "consistent-as-needed"],
+        "quotes": [2, "single"],
+        "radix": 2,
+        "semi": [ 0, "never" ],
+        "space-before-blocks": [2, "always"],
+        "space-before-function-paren": [2, {"anonymous": "never", "named": "never"}],
+        "space-unary-ops": [2, { "words": true, "nonwords": false }],
+        "spaced-comment": [2, "always"],
+        "strict": 2,
+        "valid-jsdoc": [1, { "prefer": { "return": "returns" } }],
+    },
+    "globals" : {
+        angular: true
+    },
+    "env": {
+        "amd": true,
+        "browser": true,
+        "builtin": true
+        "jasmine": true,
+        "jquery": true,
+        "mocha": true,
+        "node": true,
+    }
+}
