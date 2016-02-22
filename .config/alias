@@ -1,0 +1,96 @@
+# vim: syntax=sh filetype=sh
+
+alias g='git'
+alias gs='git st --'
+alias gl='git log --'
+alias gls='git ls --'
+alias glss='git lss --'
+alias gc='git commit --'
+alias gaa='git add -A -- .'
+alias ga='git add --'
+alias aliasg='alias | grep git'
+alias gdfw='git dfw'
+alias gdf='git df'
+alias gch='git checkout'
+alias gr='git reset'
+
+alias ng="npm list -g --depth=0 2>/dev/null"
+alias nl="npm list --depth=0 2>/dev/null"
+
+alias ll='ls -gA1GhF --group-directories-first --color'
+alias ve='source virtualenv/bin/activate'
+alias pm='python3 manage.py'
+alias pt='python3 test.py'
+alias eject='diskutil unmountDisk'
+alias mkdir='mkdir -p'
+alias pipekill='awk "{print \$1}" | xargs kill -9'
+alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+alias b16='source $BASE16_SHELL'
+alias filesWithSpaces="grep -Rc '^     ' . | grep -v ':0$' | sort -t':' -n -k2"
+
+## If nvim is available, alias it to vim
+if hash nvim 2>/dev/null; then
+  alias vim='$(which nvim)'
+  export VISUAL=$(which nvim)
+  export EDITOR=$(which nvim)
+fi
+
+## Aliases cask to brew cask if brew is installed
+if hash brew 2>/dev/null; then
+  alias cask="brew cask"
+fi
+
+## Docker Aliases/Functions
+
+function dk() {
+  case $* in
+    ri* ) shift 1; command docker run -i -t -P "$@" ;;
+    ex* ) shift 1; command docker exec -it "$@" ;;
+    a* ) shift 1;
+  esac
+}
+#  Reserved commands:
+#  do
+#  dd
+#  df
+#  du
+#  dc
+#  du
+#  dd
+#  df
+#  dir
+#  dig
+
+alias d='docker'
+dl () { docker ps -l -q; }
+db () { docker build -t=$@ .; }
+
+ds () { docker ps "$@"; }
+dsa () { docker ps -a "$@"; }
+dip () { docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@" }
+
+dim () { docker images "$@"; }
+drm () { docker rm "$@"; }
+drmi () { docker rmi "$@"; }
+drmiall () {docker rmi $(docker images -q); }
+drmall () {docker rm $(docker ps -a -q); }
+
+de () { docker exec -i -t "$@"; }
+dr () { docker run -i -t -P "$@"; }
+alias dri='docker run -i -t -P'
+alias drd='docker run -d -P'
+da () {
+  container=$@
+  if [ $# -lt 1 ]; then
+    container=`docker ps -l -q`
+  fi
+  docker exec -it "$container" /usr/bin/env bash;
+}
+
+dcs () { docker start "$@"; }
+
+dcx () { docker stop "$@"; }
+dcxa () { docker stop $(docker ps -a -q); }
+
+dsetup () { eval $(docker-machine env "$@"); }

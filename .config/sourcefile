@@ -1,0 +1,57 @@
+# vim: syntax=sh filetype=sh
+
+# Joins a string using a multicharacter delimiter, use: $ joinstr ', ' hello world "how are you"
+joinstr() {
+  local IFS='¬'
+  local delim=$1
+  shift 1
+  echo "${*//¬/$delim}"
+}
+
+# Extracts a set of columns, use: $ ls -la | awkc 1 2 5
+awkc () {
+  awk "{print $`joinstr '"	"$' $@`}" | column -s "	" -t
+}
+
+# Executes a command using xargs adding the param at the end
+# Use ls | xxargs file
+xxargs () {
+  xargs -i $@ "{}"
+}
+
+if !hash pwdx 2>/dev/null; then
+  pwdx () {
+    if [ $# -ne 1 ]; then
+      echo "You need to specifiy at least one PID"
+      return 1
+    fi
+    if ! lsof -a -d cwd -n -p "$@"; then
+      echo "PID not running"
+    fi
+  }
+fi
+
+# Creating Temporal Directory
+if [ ! -d '~/.local./tmp' ]; then
+  mkdir -p ~/.local/tmp
+fi
+
+# Specifies the Shell Theme to be used
+export BASE16_SHELL="~/.config/zsh/base16-shell/base16-default.dark.sh"
+# Specify your defaults in this environment variable
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+
+## Export GO Home folder if go is installed
+if hash go 2>/dev/null; then
+  export GOPATH="$HOME/.config/go"
+fi
+
+eval `dircolors -b ~/.config/dircolors.theme`
+
+stty sane
+
+sourceif $BASE16_SHELL
+sourceif ~/.config/alias
+sourceif ~/.local/sourcefile
+
