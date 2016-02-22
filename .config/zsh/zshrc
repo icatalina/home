@@ -19,27 +19,16 @@ autoload -U select-word-style
 select-word-style bash
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install
-HISTFILE="~/.local/tmp/zsh_history"
+HISTFILE=~/.local/tmp/zsh_history
 HISTSIZE=1000
 SAVEHIST=1000
 
-# End of lines configured by zsh-newuser-install
-
-# Base16 Shell
-#export BASE16=1
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
-# Executes $PROMPT_COMMAND before every prompt
-#  - used to change the name of tmux windows/panes
-# precmd() { eval "$PROMPT_COMMAND" }
 
 unsetopt nomatch
 
 sourceif '~/.config/zsh/zsh_keymaps'
-
-# .zshrc
-autoload -U promptinit && promptinit
-prompt pure
 
 export KEYTIMEOUT=1
 bindkey -e
@@ -60,3 +49,8 @@ if hash direnv 2> /dev/null; then
 fi
 
 export SHELL=$(which zsh)
+
+# .zshrc
+autoload -U promptinit && promptinit
+prompt pure
+

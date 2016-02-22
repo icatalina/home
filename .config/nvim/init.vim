@@ -1,6 +1,5 @@
 let $VIMHOME=expand('<sfile>:p:h')
 
-
 function! Load(files)
   for l:file in a:files
     exec 'so $VIMHOME/config/'.l:file.'.vim'
@@ -85,10 +84,10 @@ set formatoptions+=tcqjrob              " Configure the formmating options
 " History & Undo Level
 set history=1000
 set undolevels=1000
-set undodir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
+set undodir=~/.local/tmp
+set backupdir=~/.local/tmp
+set directory=~/.local/tmp
+set backupskip=~/.local/tmp
 set undofile
 set backup
 set writebackup

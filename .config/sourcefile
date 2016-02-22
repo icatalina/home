@@ -37,7 +37,7 @@ if [ ! -d '~/.local./tmp' ]; then
 fi
 
 # Specifies the Shell Theme to be used
-export BASE16_SHELL="~/.config/zsh/base16-shell/base16-default.dark.sh"
+export BASE16_SHELL=~/.config/zsh/base16-shell/base16-default.dark.sh
 # Specify your defaults in this environment variable
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 

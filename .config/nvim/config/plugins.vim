@@ -1,5 +1,7 @@
 call plug#begin()
 
+Plug 'junegunn/vim-plug'
+
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
