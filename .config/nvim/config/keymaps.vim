@@ -33,12 +33,15 @@ inoremap <C-L> <C-O>:let @/ = ""<CR>
 "@n Y > Make Y consistent with D and C, yanking the rest of the line
 nnoremap Y y$
 
-"@n <C-Z> > Save only if modified
-nnoremap <C-z> :update<cr>
-"@i <C-Z> > Save only if modified
-inoremap <C-z> <c-o>:update<cr>
-"@v <C-Z> > Save only if modified
-vnoremap <C-z> <c-c>:update<cr>v
+"@n <C-_> > Save only if modified
+nnoremap <C-_> :update<cr>
+"@i <C-_> > Save only if modified
+inoremap <C-_> <c-o>:update<cr>
+"@v <C-_> > Save only if modified
+vnoremap <C-_> <c-c>:update<cr>v
+
+"@ <F11> > Zoom Tmux pane
+map <silent> <F11> :silent !tmux resize-pane -Z<CR>
 
 "@i <C-6> > Esc and change to previous buffer
 inoremap <C-^> <Esc>:b#<cr>
