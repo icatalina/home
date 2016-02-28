@@ -1,6 +1,6 @@
 snippet sfun "Self Executing Function" w
 (function() {
-  var ${1:Name} = function() {
+  var ${1:name} = function() {
     ${0}
   };
 
@@ -8,3 +8,37 @@ snippet sfun "Self Executing Function" w
   return $1;
 }());
 endsnippet
+
+snippet var "Var Declaration" b
+var $1 = $2;
+$0
+endsnippet
+
+snippet str "use strict" b
+'use strict';
+
+$0
+endsnippet
+
+snippet if "If Statement" b
+if ($1) {
+	${2:${VISUAL:\/\/ Code...}}
+}
+$0
+endsnippet
+
+snippet else "Else Statement" b
+else {
+	${1:${VISUAL:\/\/Code...}}
+}
+$0
+endsnippet
+
+snippet elif "Else Statement" b
+else if ($1) {
+	${2:${VISUAL:\/\/Code...}}
+}
+$0
+endsnippet
+
+

@@ -1,7 +1,23 @@
-snippet li. "List with class" b
-<li ${1:class="${2:class}"}$3>$0</li>
+priority 1
+clearsnippets li div ul
+
+snippet doctype "HTML - 5.0 (doctype)" b
+<!DOCTYPE html>
+
 endsnippet
 
-snippet ul. "List with class" b
+snippet l. "List with class" b
+<li${1: class="${2:class}"}$3>${0:${VISUAL:<!-- Content -->}}</li>
+endsnippet
+
+snippet u. "List with class" b
 <ul ${1:class="${2:class}"}$3>$0</ul>
+endsnippet
+
+snippet d. "List with class" b
+<div${1}>${0:${VISUAL:<!-- Content -->}}</div>
+endsnippet
+
+snippet cls "Class" i
+class="$1"$0
 endsnippet
