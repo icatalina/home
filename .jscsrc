@@ -1,0 +1,11 @@
+{
+  "preset": "google",
+  "maximumLineLength": {
+    "value": 140,
+    "allExcept": ["comments", "regex"]
+  },
+  "requireKeywordsOnNewLine": ["else"],
+  "requireCamelCaseOrUpperCaseIdentifiers": { "ignoreProperties": true },
+  "validateQuoteMarks": { "mark": "'", "escape": true },
+  "disallowMultipleVarDecl": "exceptUndefined"
+}
