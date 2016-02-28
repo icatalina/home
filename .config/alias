@@ -1,4 +1,5 @@
 # vim: syntax=sh filetype=sh
+alias f='fg'
 
 alias g='git'
 alias gs='git st --'
@@ -31,7 +32,7 @@ alias filesWithSpaces="grep -Rc '^     ' . | grep -v ':0$' | sort -t':' -n -k2"
 
 ## If nvim is available, alias it to vim
 if hash nvim 2>/dev/null; then
-  alias vim='$(which nvim)'
+  alias vim=$(which nvim)
   export VISUAL=$(which nvim)
   export EDITOR=$(which nvim)
 fi

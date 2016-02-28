@@ -9,9 +9,10 @@ endfunction
 call Load(['plugins'])
 
 autocmd! BufReadPost * call SetCursorPosition()
-autocmd! BufEnter * :syntax sync minlines=300
 autocmd! BufEnter * :let g:bufNum=bufnr('%')
 autocmd! Filetype gitcommit setlocal spell textwidth=72
+
+syntax sync minlines=300
 
 " Share clipboard
 if has('unnamedplus')
@@ -89,8 +90,8 @@ set backupdir=~/.local/tmp
 set directory=~/.local/tmp
 set backupskip=~/.local/tmp
 set undofile
-set backup
-set writebackup
+set nobackup
+set nowritebackup
 
 if !has('nvim')                         " This options are on by default in NeoVim
   set autoindent                        " Automatically indent new lines
@@ -134,8 +135,23 @@ endif
 
 highlight! Search cterm=NONE ctermfg=white ctermbg=darkyellow
 highlight! SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
-hi cursorlinenr ctermfg=15
+highlight! cursorlinenr ctermfg=15
 
+let g:used_javascript_libs = 'underscore,angularjs,jquery'
+
+" Make Jasmine files load the right syntax highlight and snippets
+autocmd BufNewFile,BufReadPre *Spec.js,*_spec.js let b:javascript_lib_use_jasmine = 1
+autocmd BufNewFile,BufReadPost *Spec.js,*_spec.js set ft=jasmine.javascript
+
+" Backend using node and excluding jquery
+autocmd BufNewFile,BufReadPre */app/backend/*.js let b:javascript_lib_use_jquery = 0 | let b:javascript_lib_use_angular = 0
+autocmd BufNewFile,BufReadPost */app/backend/*.js set ft=node.javascript
+
+" Frontend using angular and jquery
+autocmd BufNewFile,BufReadPre */app/frontend/*.js let b:javascript_lib_use_jquery = 1 | let b:javascript_lib_use_angular = 1
+autocmd BufNewFile,BufReadPost */app/frontend/*.js set ft=angular.javascript
+
+let g:UltiSnipsEnableSnipMate=0
 
 call Load([
   \'buffergator',
@@ -152,4 +168,7 @@ call Load([
   \'statuslinehelpers',
   \'statusline'
 \])
+
+let g:snips_author = "***REMOVED***"
+let g:snips_email = "***REMOVED***"
 

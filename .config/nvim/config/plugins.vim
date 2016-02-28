@@ -5,7 +5,7 @@ Plug 'junegunn/vim-plug'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'benekastah/neomake', { 'on':  'Neomake' }
+Plug 'icatalina/neomake'
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'editorconfig/editorconfig-vim'
@@ -14,21 +14,22 @@ Plug 'vim-scripts/matchit.zip'
 Plug 'gabesoft/vim-ags', { 'on': 'Ags' }
 Plug 'jeetsukumaran/vim-buffergator', { 'on': 'BuffergatorToggle' }
 Plug 'airblade/vim-gitgutter'
-Plug 'alvan/vim-closetag'
 Plug 'Raimondi/delimitMate'
 
 " Javascript Functionallity
 Plug '29decibel/vim-stringify', { 'for': 'javascript' }
 Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 
 "" Syntaxes
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
+Plug 'groenewege/vim-less', { 'for': 'less' }
 Plug 'dansomething/ftl-vim-syntax', { 'for': 'ftl' }
 Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
-Plug 'elzr/vim-json'
+Plug 'elzr/vim-json', { 'for': 'json' }
 Plug 'evidens/vim-twig'
-Plug 'hail2u/vim-css3-syntax'
+Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss', 'less'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
 
