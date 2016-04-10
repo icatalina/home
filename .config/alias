@@ -1,4 +1,8 @@
 # vim: syntax=sh filetype=sh
+function config {
+   /usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
+}
+
 alias f='fg'
 
 alias g='git'
@@ -17,6 +21,7 @@ alias gr='git reset'
 
 alias ng="npm list -g --depth=0 2>/dev/null"
 alias nl="npm list --depth=0 2>/dev/null"
+alias nr="npm-run"
 
 alias ll='ls -gA1GhF --group-directories-first --color'
 alias ve='source virtualenv/bin/activate'
@@ -25,7 +30,10 @@ alias pt='python3 test.py'
 alias eject='diskutil unmountDisk'
 alias mkdir='mkdir -p'
 alias pipekill='awk "{print \$1}" | xargs kill -9'
-alias config='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cfg='/usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+alias desk='cd ~/Desktop'
+alias dev='cd ~/develop'
 
 alias b16='source $BASE16_SHELL'
 alias filesWithSpaces="grep -Rc '^     ' . | grep -v ':0$' | sort -t':' -n -k2"
@@ -127,3 +135,5 @@ dcxa () {
 dsetup () {
   eval $(docker-machine env "$@");
 }
+
+sourceif ~/.local/alias

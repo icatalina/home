@@ -15,8 +15,8 @@ command! -nargs=+ -complete=file -bar Ags silent! grep! <args>|cwindow|redraw!
 " nnoremap K :!grep "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 "@n \\ > Trigger AG search
-nnoremap \\ :Ags<SPACE>
+nnoremap \\ :Ag<SPACE>
 
 "@v \\ > Trigger AG Search for the selected word
-vnoremap \\ "zy:Ags <C-r>=fnameescape(@z)<CR>
+vnoremap \\ "zy:Ag <C-r>=fnameescape(@z)<CR>
 

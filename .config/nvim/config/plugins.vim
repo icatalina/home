@@ -5,15 +5,16 @@ Plug 'junegunn/vim-plug'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'icatalina/neomake'
+Plug 'benekastah/neomake', { 'on':  'Neomake' }
 Plug 'scrooloose/nerdcommenter'
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/matchit.zip'
-Plug 'gabesoft/vim-ags', { 'on': 'Ags' }
+Plug 'rking/ag.vim', { 'on': 'Ag' }
 Plug 'jeetsukumaran/vim-buffergator', { 'on': 'BuffergatorToggle' }
 Plug 'airblade/vim-gitgutter'
+Plug 'alvan/vim-closetag'
 Plug 'Raimondi/delimitMate'
 
 " Javascript Functionallity

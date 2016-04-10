@@ -1,4 +1,5 @@
 let $VIMHOME=expand('<sfile>:p:h')
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 
 function! Load(files)
   for l:file in a:files
