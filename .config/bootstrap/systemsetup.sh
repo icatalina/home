@@ -35,6 +35,7 @@ brewApps=(
   zsh
   vim --override-system-vi --HEAD
   reattach-to-user-namespace
+  neovim --HEAD
 )
 
 casksApps=(
@@ -76,6 +77,7 @@ nodePackages=(
   eslint
   grunt-cli
   node-inspector
+  pure-prompt
 )
 
 gemPackages=(
@@ -142,10 +144,10 @@ brew install zsh
 brew install vim --override-system-vi --HEAD
 
 echo "Installing Casks..."
-# brew cask install ${casksApps[@]}
+brew cask install ${casksApps[@]}
 
 echo "Installing QuickLookPlugins..."
-#brew cask install ${quickLookPlugins[@]}
+rew cask install ${quickLookPlugins[@]}
 
 echo "Cleaning brew..."
 brew cleanup

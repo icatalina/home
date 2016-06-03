@@ -18,7 +18,8 @@ inoremap <F9> <c-o>:normal \c<CR>
 
 
 " NERDTree
-let g:NERDTreeBookmarksFile = $VIMTEMP."/_vimNerdTreeBookMarks"
+"
+let g:NERDTreeBookmarksFile=expand("~/.local/tmp/nerdtree.bookmarks")
 let g:NERDTreeIgnore=['\.DS_Store$', '\.pyc', '__pycache__', '__init__.py']
 let g:nerdtree_tabs_open_on_gui_startup=0
 let g:NERDTreeMouseMode=1
