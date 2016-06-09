@@ -1,3 +1,4 @@
+xcode-select --install
 git clone --bare git@github.com:icatalina/home.git $HOME/.cfg
 function config {
    /usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
