@@ -8,6 +8,7 @@ git clone --bare http://github.com/icatalina/home.git $HOME/.cfg
 function config {
    /usr/bin/env git --git-dir=$HOME/.cfg/ --work-tree=$HOME $@
 }
+
 mkdir -p .config-backup
 config checkout
 if [ $? = 0 ]; then
@@ -20,6 +21,8 @@ config checkout
 
 config submodule init
 config submodule update
+
+config remote set-url "git@github.com:icatalina/home.git"
 
 echo "To continue installing the default apps run: ~/.config/bootstrap/systemsetup.sh"
 echo "To setup OSX run: ~/.config/bootstrap/osx.sh"
