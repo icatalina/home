@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo sed '1s/^/\/usr\/local\/opt\/coreutils\/libexec\/gnubin\n\/usr\/local\/bin\n/' /etc/paths
+sudo sed -i '1s/^/\/usr\/local\/opt\/coreutils\/libexec\/gnubin\'$'\n/' /etc/paths
 
 brewApps=(
   "coreutils"
