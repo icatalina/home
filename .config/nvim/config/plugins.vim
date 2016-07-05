@@ -33,6 +33,7 @@ Plug 'evidens/vim-twig'
 Plug 'hail2u/vim-css3-syntax', { 'for': ['css', 'scss', 'less'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
+Plug 'evanmiller/nginx-vim-syntax'
 
 "" Updated sass/scss syntax
 Plug 'tpope/vim-haml'
