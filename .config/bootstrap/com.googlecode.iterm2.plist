@@ -17,7 +17,7 @@
 	<key>AutoHideTmuxClientSession</key>
 	<false/>
 	<key>CheckTestRelease</key>
-	<true/>
+	<false/>
 	<key>ClosingHotkeySwitchesSpaces</key>
 	<true/>
 	<key>CommandSelection</key>
@@ -35789,6 +35789,8 @@
 	<true/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
+	<key>DoubleClickPerformsSmartSelection</key>
+	<false/>
 	<key>EnableRendezvous</key>
 	<false/>
 	<key>FocusFollowsMouse</key>
@@ -35983,12 +35985,10 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
-	<key>NSFontPanelAttributes</key>
-	<string>1, 0</string>
-	<key>NSFontPanelPreviewHeight</key>
-	<real>0.0</real>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/.config/bootstrap</string>
+	<key>NSNavPanelExpandedSizeForOpenMode</key>
+	<string>{712, 448}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -36008,35 +36008,25 @@
 		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
 		hAErATGG
 		</data>
-		<string>307</string>
+		<string>322</string>
 	</array>
 	<key>NSTableView Hidden Columns KeyBingingTable</key>
 	<array/>
 	<key>NSTableView Sort Ordering KeyBingingTable</key>
 	<array/>
-	<key>NSToolbar Configuration Terminal Toolbar</key>
+	<key>NSToolbar Configuration com.apple.NSColorPanel</key>
 	<dict>
-		<key>TB Display Mode</key>
-		<integer>1</integer>
-		<key>TB Icon Size Mode</key>
-		<integer>2</integer>
 		<key>TB Is Shown</key>
-		<integer>0</integer>
-		<key>TB Size Mode</key>
 		<integer>1</integer>
 	</dict>
-	<key>NSWindow Frame NSColorPanel</key>
-	<string>1235 569 201 309 0 0 1440 878 </string>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>-782 284 742 334 -1680 -41 1680 1028 </string>
+	<string>2049 110 445 103 0 0 2560 1417 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>-1353 602 924 485 -1920 0 1920 1178 </string>
+	<string>461 792 606 456 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>-1920 8 1914 1170 -1920 0 1920 1178 </string>
+	<string>0 6 1676 1014 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>0 676 570 351 0 0 1680 1028 </string>
-	<key>NSWindow Frame iTerm Window 2</key>
-	<string>-1543 404 570 376 -1680 -41 1680 1028 </string>
+	<string>477 406 1141 763 0 0 2560 1417 </string>
 	<key>New Bookmarks</key>
 	<array>
 		<dict>
@@ -36579,11 +36569,11 @@
 			<key>Name</key>
 			<string>Default</string>
 			<key>Non Ascii Font</key>
-			<string>Menlo-Regular 11</string>
+			<string>MesloLGLNerdFontCompleteMono---RegularForPowerline 11</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>Menlo-Regular 11</string>
+			<string>MesloLGLNerdFontCompleteMono---RegularForPowerline 11</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -36758,7 +36748,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Vertical Spacing</key>
-			<real>0.99800729751586914</real>
+			<real>0.76192037168755578</real>
 			<key>Visual Bell</key>
 			<true/>
 			<key>Window Type</key>
@@ -37494,14 +37484,107 @@
 			<string>/Users/44093Ig</string>
 		</dict>
 	</array>
-	<key>NoSyncHaveShownPromoWithId_4</key>
+	<key>NoSyncConfirmBeta</key>
 	<true/>
-	<key>NoSyncNeverRemindPrefsChangesCopy</key>
+	<key>NoSyncInstallationId</key>
+	<string>D2DAA22B-14B9-4D74-8256-F7FA17E23966</string>
+	<key>NoSyncLastTipTime</key>
+	<real>489376662.48999202</real>
+	<key>NoSyncPermissionToShowTip</key>
 	<true/>
-	<key>NoSyncTimeOfLastPromo</key>
-	<real>477922213.23948097</real>
-	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>477921970.16873097</real>
+	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
+	<real>488694704.62571299</real>
+	<key>NoSyncTipsToNotShow</key>
+	<array>
+		<string>000</string>
+		<string>0000</string>
+		<string>0001</string>
+		<string>0002</string>
+		<string>0003</string>
+		<string>0004</string>
+		<string>0005</string>
+		<string>0004</string>
+		<string>0005</string>
+		<string>0006</string>
+		<string>0006</string>
+		<string>0007</string>
+		<string>0007</string>
+		<string>0008</string>
+		<string>0009</string>
+		<string>0010</string>
+		<string>0011</string>
+		<string>0012</string>
+		<string>0013</string>
+		<string>0014</string>
+		<string>0015</string>
+		<string>0015</string>
+		<string>0016</string>
+		<string>0017</string>
+		<string>0018</string>
+		<string>0019</string>
+		<string>0020</string>
+		<string>0021</string>
+		<string>0022</string>
+		<string>0023</string>
+		<string>0024</string>
+		<string>0025</string>
+		<string>0026</string>
+		<string>0027</string>
+		<string>0028</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0031</string>
+		<string>0032</string>
+		<string>0033</string>
+		<string>0034</string>
+		<string>0034</string>
+		<string>0033</string>
+		<string>0032</string>
+		<string>0031</string>
+		<string>0030</string>
+		<string>0029</string>
+		<string>0028</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0031</string>
+		<string>0032</string>
+		<string>0033</string>
+		<string>0034</string>
+		<string>0035</string>
+		<string>0036</string>
+		<string>0037</string>
+		<string>0038</string>
+		<string>0039</string>
+		<string>0039</string>
+		<string>0040</string>
+		<string>0041</string>
+		<string>0042</string>
+		<string>0041</string>
+		<string>0042</string>
+		<string>0043</string>
+		<string>0044</string>
+		<string>0045</string>
+		<string>0046</string>
+		<string>0047</string>
+		<string>0048</string>
+		<string>0049</string>
+		<string>0050</string>
+		<string>0051</string>
+		<string>0052</string>
+		<string>0053</string>
+		<string>0054</string>
+		<string>0055</string>
+		<string>0056</string>
+		<string>0057</string>
+		<string>0058</string>
+		<string>0059</string>
+		<string>0060</string>
+		<string>0061</string>
+		<string>0062</string>
+		<string>0063</string>
+		<string>0064</string>
+		<string>0065</string>
+	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
 	<key>OpenArrangementAtStartup</key>
@@ -37566,11 +37649,11 @@
 	<key>SUFeedAlternateAppNameKey</key>
 	<string>iTerm</string>
 	<key>SUFeedURL</key>
-	<string>https://iterm2.com/appcasts/testing.xml</string>
+	<string>https://iterm2.com/appcasts/final.xml?shard=40</string>
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-02-23T09:41:09Z</date>
+	<date>2016-07-05T01:57:33Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
@@ -37618,6 +37701,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.1.4</string>
+	<string>3.0.2</string>
 </dict>
 </plist>
