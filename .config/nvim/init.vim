@@ -127,7 +127,7 @@ let g:html_indent_tags = 'li\|p'
 
 if !empty($BASE16_SHELL)
     let base16colorspace=256
-    silent! colorscheme base16-default
+    silent! colorscheme base16-default-dark
 else
     silent! colorscheme peachpuff
     highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE

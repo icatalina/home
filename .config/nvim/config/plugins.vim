@@ -44,6 +44,8 @@ Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-line'
 Plug 'beloglazov/vim-textobj-quotes'
 Plug 'lucapette/vim-textobj-underscore'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
 
 if version > 703
   " Color Schemas
