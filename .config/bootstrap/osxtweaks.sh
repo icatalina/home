@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+read -n1 -r -p "This script will modify some OSX options for you, do you want to continue? (y/n) " key
+if [[ $key != 'y' ]]; then
+  echo ''
+  echo 'You can run this script whenever you want using: ~/.config/bootstrap/osxtweaks.sh'
+  exit
+fi
+
 # ~/.osx — https://mths.be/osx
 
 # Ask for the administrator password upfront

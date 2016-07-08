@@ -25,5 +25,5 @@ config submodule update
 
 config remote set-url origin "git@github.com:icatalina/home.git"
 
-echo "To continue installing the default apps run: ~/.config/bootstrap/systemsetup.sh"
-echo "To setup OSX run: ~/.config/bootstrap/osx.sh"
+echo "Running ~/.config/bootstrap/packages.sh"
+~/.config/bootstrap/packages.sh
