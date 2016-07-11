@@ -37,7 +37,8 @@ if [ ! -d '~/.local./tmp' ]; then
 fi
 
 # Specifies the Shell Theme to be used
-export BASE16_SHELL=~/.config/zsh/base16-shell/base16-default.dark.sh
+export BASE16_SHELL=~/.config/zsh/base16-shell/base16-flat.dark.sh
+
 # Specify your defaults in this environment variable
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
@@ -51,7 +52,7 @@ eval `dircolors -b ~/.config/dircolors.theme`
 
 stty sane
 
-sourceif $BASE16_SHELL
+sourceif ~/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
 sourceif ~/.config/alias
 sourceif ~/.local/sourcefile
 

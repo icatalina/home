@@ -45,11 +45,11 @@ Plug 'kana/vim-textobj-line'
 Plug 'beloglazov/vim-textobj-quotes'
 Plug 'lucapette/vim-textobj-underscore'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'ryanoasis/vim-devicons'
 
 if version > 703
   " Color Schemas
-  Plug 'chriskempson/base16-vim'
+  " Plug 'chriskempson/base16-vim'
+  Plug 'morhetz/gruvbox'
 
   " Load on first insert mode
   Plug 'SirVer/ultisnips', { 'on': [] }

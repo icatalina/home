@@ -58,9 +58,11 @@ function! StatuslineTabWarning()
         let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
 
         if tabs && spaces
-            let b:statusline_tab_warning =  ',mi'
-        elseif (spaces && !&et) || (tabs && &et)
-            let b:statusline_tab_warning = ',et'
+          let b:statusline_tab_warning =  ',mi'
+        elseif (spaces && !&et)
+          let b:statusline_tab_warning = ',!et'
+        elseif (tabs && &et)
+          let b:statusline_tab_warning = ',et'
         endif
     endif
     return b:statusline_tab_warning

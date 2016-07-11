@@ -1,5 +1,6 @@
 let $VIMHOME="~/.vim/"
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 
 function! Load(files)
   for l:file in a:files
@@ -33,7 +34,6 @@ filetype plugin indent on
 
 let mapleader = " "
 
-set background=dark                     " Sets a dark background
 set cinoptions=:0,(s,u0,U1,g0,t0        " Some indentation options ':h cinoptions' for details
 set cmdheight=2                         " Cmd area height
 set cursorline                          " Enable cursor line
@@ -125,18 +125,14 @@ let g:neomake_html_enabled_makers = ['htmlhint']
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-if !empty($BASE16_SHELL)
-    let base16colorspace=256
-    silent! colorscheme base16-default-dark
-else
-    silent! colorscheme peachpuff
-    highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE
-    highlight! cursorline cterm=none ctermbg=18
-endif
-
-highlight! Search cterm=NONE ctermfg=white ctermbg=darkyellow
-highlight! SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
-highlight! cursorlinenr ctermfg=15
+set background=dark                     " Sets a dark background
+silent! colorscheme gruvbox
+"highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE
+"highlight! cursorline cterm=none ctermbg=18
+"
+"highlight! Search cterm=NONE ctermfg=white ctermbg=darkyellow
+"highlight! SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
+"highlight! cursorlinenr ctermfg=15
 
 let g:used_javascript_libs = 'underscore,angularjs,jquery'
 
