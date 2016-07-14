@@ -11,4 +11,3 @@ HISTCONTROL=ignoreboth:erasedups
 HISTIGNORE='ls:clear:bg:fg:history:exit:pwd:cd\ ..:ll:ls\ *:history\ *'
 HISTFILE=~/.local/tmp/bash_history
 PROMPT_COMMAND='history -a'
-tmux

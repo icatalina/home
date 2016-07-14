@@ -3,7 +3,7 @@ function! GetGitStatus()
   if !exists("b:git_branch")
 
     if expand('%:p') != ''
-      let l:branch='git -C '.expand('%:p:h').' status -sb -- ' . expand('%:p') . ' 2> /dev/null | sed "s/\(^##\ \|^\s\|\.\{3\}.*\)//g"'
+      let l:branch='git -C '.expand('%:p:h').' status -sb -- ' . expand('%:p') . ' 2> /dev/null | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | sed "s/\(^##\ \|^\s\|\.\{3\}.*\)//g"'
       let l:branchArray=split(substitute(system(l:branch), '\n', ' ', 'g'), ' ')
       if (len(l:branchArray) > 1)
         let l:branchArray=l:branchArray[:1]
@@ -58,9 +58,11 @@ function! StatuslineTabWarning()
         let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
 
         if tabs && spaces
-            let b:statusline_tab_warning =  ',mi'
-        elseif (spaces && !&et) || (tabs && &et)
-            let b:statusline_tab_warning = ',et'
+          let b:statusline_tab_warning =  ',mi'
+        elseif (spaces && !&et)
+          let b:statusline_tab_warning = ',!ett'
+        elseif (tabs && &et)
+          let b:statusline_tab_warning = ',et'
         endif
     endif
     return b:statusline_tab_warning

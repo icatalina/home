@@ -1,5 +1,12 @@
-let $VIMHOME="~/.vim/"
+let $VIMHOME="~/.vim"
+let $LOCALFOLDER="~/.local"
+
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+function! FileExists(file)
+  return filereadable(glob(a:file))
+endfunction
 
 function! Load(files)
   for l:file in a:files
@@ -23,17 +30,15 @@ else
 endif
 
 " Color Scheme
-set t_Co=256
-let &t_AB="\e[48;5;%dm"
-let &t_AF="\e[38;5;%dm"
+"set t_Co=256
+"let &t_AB="\e[48;5;%dm"
+"let &t_AF="\e[38;5;%dm"
 
 syntax on
 filetype plugin indent on
 
-
 let mapleader = " "
 
-set background=dark                     " Sets a dark background
 set cinoptions=:0,(s,u0,U1,g0,t0        " Some indentation options ':h cinoptions' for details
 set cmdheight=2                         " Cmd area height
 set cursorline                          " Enable cursor line
@@ -105,12 +110,12 @@ if !has('nvim')                         " This options are on by default in NeoV
   set incsearch                         " Incremental search
   set mouse=a                           " Mouse in All modes
   set smarttab                          " Tab completes to the closest tabstop, delete removes till previous tabstop
-  set t_kb=
-  set t_kD=[3;*~
+  "set t_kb=
+  "set t_kD=[3;*~
   set wildmenu                          " Enhanced command completion
   "" Fix Delete Key
-  nmap [3;*~ "_x
-  inoremap [3;*~ <C-O>"_x
+  "nmap [3;*~ "_x
+  "inoremap [3;*~ <C-O>"_x
   autocmd! BufWritePost * Neomake
 else
   autocmd! BufReadPost,BufWritePost * Neomake
@@ -125,18 +130,9 @@ let g:neomake_html_enabled_makers = ['htmlhint']
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-if !empty($BASE16_SHELL)
-    let base16colorspace=256
-    silent! colorscheme base16-default-dark
-else
-    silent! colorscheme peachpuff
-    highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE
-    highlight! cursorline cterm=none ctermbg=18
-endif
-
-highlight! Search cterm=NONE ctermfg=white ctermbg=darkyellow
-highlight! SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
-highlight! cursorlinenr ctermfg=15
+set background=dark                     " Sets a dark background
+let base16colorspace=256
+silent! colorscheme base16-default-dark
 
 let g:used_javascript_libs = 'underscore,angularjs,jquery'
 
@@ -170,6 +166,20 @@ call Load([
   \'statusline'
 \])
 
-let g:snips_author = "***REMOVED***"
-let g:snips_email = "***REMOVED***"
+highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE guibg=#202E39 guifg=NONE gui=NONE
+highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
+highlight! vimHiAttribList guifg=red guibg=#333333 gui=reverse
+highlight! vimHiKeyError guifg=red guibg=#333333 gui=reverse
+highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
+
+" Enabling .local/init.vim for local configurations
+if FileExists($LOCALFOLDER . '/init.vim')
+  exec 'so $LOCALFOLDER/init.vim'
+endif
+
+if !exists('g:snips_dismiss') && (!exists('g:snips_author') || !exists('g:snips_email'))
+  echo 'Add your g:snips_author and g:snips_email in your ~/.local/init.vim for UltiSnips to use them, otherwise set g:snips_dismiss = 1 in your .vimrc'
+endif
+
+
 

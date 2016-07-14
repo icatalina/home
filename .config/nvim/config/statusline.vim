@@ -1,38 +1,63 @@
-highlight! StatusLine     ctermfg=7       ctermbg=18 cterm=NONE
-highlight! StatusLineNC   ctermfg=8       ctermbg=235 cterm=NONE
-" Error
-highlight! User2          ctermfg=255     ctermbg=160 cterm=NONE
-" Warning
-highlight! User3          ctermfg=154     ctermbg=18 cterm=NONE
-highlight! User4          ctermfg=18      ctermbg=34 cterm=NONE
-" Read Mode
-highlight! User5          ctermfg=154     ctermbg=18 cterm=NONE
-highlight! User6          ctermfg=45      ctermbg=18 cterm=NONE
+function! s:HL(key, fg, bg)
+  execute 'highlight! ' a:key ' cterm=none gui=none guifg=' a:fg ' guibg=' a:bg
+endfunction
+
+highlight! clear StatusLine
+highlight! StatusLine NONE
+highlight! clear StatusLineNC
+highlight! StatusLineNC NONE
+
+call s:HL('SLMain',     '#000000', '#7cafc2')
+call s:HL('SLMiddle',   '#959590', '#333333')
+call s:HL('SLError',    '#ff2222', '#282828')
+call s:HL('SLModified', '#EFC72B', '#584E4C')
+call s:HL('SLPaste',    '#000000', '#efc72b')
+call s:HL('SLModified', '#ffffff', '#7cafc2')
+
+call s:HL('User1',        '#959590', '#333333')
+call s:HL('User2',        '#959590', '#333333')
+call s:HL('User3',        '#959590', '#333333')
+call s:HL('User4',        '#000000', '#7C6515')
+
+highlight! link StatusLine    SLMain
+highlight! link StatusLineNC  SLMiddle
+highlight! link User1         SLMiddle
+highlight! link User2         SLError
+highlight! link User3         SLModified
+highlight! link User4         SLPaste
+
+function! SyntaxItem()
+  if exists("g:show_highlight_group")
+    return synIDattr(synID(line("."),col("."),1),"name")
+  else
+    return ''
+  endif
+endfunction
 
 "statusline setup
 set statusline=
-"set statusline+=\ %{Mode()}
-set statusline+=%4*%{&paste?'\ \ PASTE\ ':''}
-set statusline+=%*
-set statusline+=\ %-0.30f
+set statusline+=%1*%(\ %{SyntaxItem()}\ %)
 
-"modified flag
-set statusline+=%5*%{&modified?'+':''}
-set statusline+=%*
-set statusline+=\ %(❪%0.25{GetGitStatus()}❫%)
+" Paste
+set statusline+=%4*%(\ %{&paste?'PASTE':''}\ %)
+
+" FileName
+set statusline+=%*%(\ %-0.30t\ %)
+
+" Modified/ReadOnly
+set statusline+=%2*%(%m%r%)
+set statusline+=%1*%(\ «%0.30{GetGitStatus()}»%)
 
 set statusline+=%=      "left/right separator
 
-"display a warning if fileformat isnt unix
+"display an error if fileformat isn't unix
 set statusline+=%2*
 set statusline+=%([%R%H%{&ff!='unix'?','.&ff:''}%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''}]%)
-
-set statusline+=%3*
 set statusline+=%([%{NeoMakeErrorCount()}%{StatuslineLongLineWarning()}%{StatuslineTabWarning()}%{StatuslineTrailingSpaceWarning()}]%)
 
-set statusline+=%6*
-set statusline+=%y  "filetype
-set statusline+=%([%3v]%)  "cursor column
+set statusline+=%*
+set statusline+=%([%v%),%(%p%%]%)  "cursor column
+set statusline+=%y"filetype
 
 set laststatus=2
 
