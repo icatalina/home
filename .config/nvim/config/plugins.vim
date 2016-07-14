@@ -49,7 +49,7 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 if version > 703
   " Color Schemas
   " Plug 'chriskempson/base16-vim'
-  Plug 'morhetz/gruvbox'
+  " Plug 'morhetz/gruvbox'
 
   " Load on first insert mode
   Plug 'SirVer/ultisnips', { 'on': [] }

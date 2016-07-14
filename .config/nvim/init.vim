@@ -24,13 +24,12 @@ else
 endif
 
 " Color Scheme
-set t_Co=256
-let &t_AB="\e[48;5;%dm"
-let &t_AF="\e[38;5;%dm"
+"set t_Co=256
+"let &t_AB="\e[48;5;%dm"
+"let &t_AF="\e[38;5;%dm"
 
 syntax on
 filetype plugin indent on
-
 
 let mapleader = " "
 
@@ -105,12 +104,12 @@ if !has('nvim')                         " This options are on by default in NeoV
   set incsearch                         " Incremental search
   set mouse=a                           " Mouse in All modes
   set smarttab                          " Tab completes to the closest tabstop, delete removes till previous tabstop
-  set t_kb=
-  set t_kD=[3;*~
+  "set t_kb=
+  "set t_kD=[3;*~
   set wildmenu                          " Enhanced command completion
   "" Fix Delete Key
-  nmap [3;*~ "_x
-  inoremap [3;*~ <C-O>"_x
+  "nmap [3;*~ "_x
+  "inoremap [3;*~ <C-O>"_x
   autocmd! BufWritePost * Neomake
 else
   autocmd! BufReadPost,BufWritePost * Neomake
@@ -126,13 +125,8 @@ let g:neomake_html_enabled_makers = ['htmlhint']
 let g:html_indent_tags = 'li\|p'
 
 set background=dark                     " Sets a dark background
-silent! colorscheme gruvbox
-"highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE
-"highlight! cursorline cterm=none ctermbg=18
-"
-"highlight! Search cterm=NONE ctermfg=white ctermbg=darkyellow
-"highlight! SpellErrors guibg=red guifg=black ctermbg=red ctermfg=black
-"highlight! cursorlinenr ctermfg=15
+let base16colorspace=256
+silent! colorscheme base16-default-dark
 
 let g:used_javascript_libs = 'underscore,angularjs,jquery'
 
@@ -168,4 +162,12 @@ call Load([
 
 let g:snips_author = "***REMOVED***"
 let g:snips_email = "***REMOVED***"
+
+highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE guibg=#202E39 guifg=NONE gui=NONE
+highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
+highlight! vimHiAttribList guifg=red guibg=#333333 gui=reverse
+highlight! vimHiKeyError guifg=red guibg=#333333 gui=reverse
+highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
+" highlight! cursorline cterm=none ctermbg=18
+" highlight! cursorlinenr guifg=#ffffff ctermfg=15
 
