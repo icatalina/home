@@ -1,6 +1,12 @@
-let $VIMHOME="~/.vim/"
+let $VIMHOME="~/.vim"
+let $LOCALFOLDER="~/.local"
+
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+
+function! FileExists(file)
+  return filereadable(glob(a:file))
+endfunction
 
 function! Load(files)
   for l:file in a:files
@@ -160,14 +166,20 @@ call Load([
   \'statusline'
 \])
 
-let g:snips_author = "***REMOVED***"
-let g:snips_email = "***REMOVED***"
-
 highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE guibg=#202E39 guifg=NONE gui=NONE
 highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
 highlight! vimHiAttribList guifg=red guibg=#333333 gui=reverse
 highlight! vimHiKeyError guifg=red guibg=#333333 gui=reverse
 highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
-" highlight! cursorline cterm=none ctermbg=18
-" highlight! cursorlinenr guifg=#ffffff ctermfg=15
+
+" Enabling .local/init.vim for local configurations
+if FileExists($LOCALFOLDER . '/init.vim')
+  exec 'so $LOCALFOLDER/init.vim'
+endif
+
+if !exists('g:snips_dismiss') && (!exists('g:snips_author') || !exists('g:snips_email'))
+  echo 'Add your g:snips_author and g:snips_email in your ~/.local/init.vim for UltiSnips to use them, otherwise set g:snips_dismiss = 1 in your .vimrc'
+endif
+
+
 

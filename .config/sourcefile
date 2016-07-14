@@ -52,7 +52,6 @@ eval `dircolors -b ~/.config/dircolors.theme`
 
 stty sane
 
-sourceif ~/.config/nvim/plugged/gruvbox/gruvbox_256palette.sh
 sourceif ~/.config/alias
 sourceif ~/.local/sourcefile
 
