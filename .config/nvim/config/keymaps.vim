@@ -88,6 +88,10 @@ set pastetoggle=<F2>
 "@n <F3> > Undo Tree (GundoToggle)
 nnoremap <F3> :GundoToggle<CR>
 
+"@ <C-U> > Undo
+nnoremap <C-U> <Undo>
+nnoremap u <Nop>
+
 "@ <F7> > Move the items in the QuickList to the ToArgs List
 map <F7> :call QuickListToArgs()<CR>
 
