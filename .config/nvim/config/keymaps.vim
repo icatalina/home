@@ -26,9 +26,9 @@ vnoremap \/ <Esc>/\%V
 vnoremap <Leader>sr <Esc>:%s/\%V
 
 "@n <C-L> > Clean last search
-nnoremap <C-L> :let @/ = ""<CR><C-L>
+nnoremap <C-L> :nohlsearch<CR>
 "@i <C-L> > Clean last search
-inoremap <C-L> <C-O>:let @/ = ""<CR>
+inoremap <C-L> <C-O>:nohlsearch<CR>
 
 "@n Y > Make Y consistent with D and C, yanking the rest of the line
 nnoremap Y y$
