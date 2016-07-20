@@ -79,7 +79,7 @@ set ttimeout                            " Enable timeout for key codes
 set ttimeoutlen=100                     " Time in ms waited for a key code secuence to complete
 set updatetime=200                      " Time in ms to consider vim 'idle'
 set visualbell                          " Use visual bell instead of beeping
-set whichwrap+=<,>,h,l,[,]              " Let keys move the cursor to the previous/next line when it's on the first/last character on a line
+set whichwrap+=<,>,[,]                  " Let keys move the cursor to the previous/next line when it's on the first/last character on a line
 set formatoptions+=tcqjrob              " Configure the formmating options
 "c Auto-wrap comments using textwidth, inserting the current comment leader automatically.
 "q Allow formatting of comments with 'gq'
