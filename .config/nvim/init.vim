@@ -72,7 +72,7 @@ set smartcase                           " Enables case sensitive search when an 
 set softtabstop=2                       " Columns used when Tab is hitted in insert mode (-1 follows tabstop)
 set splitbelow                          " Open new Split below
 set splitright                          " Open new split right
-set synmaxcol=400                       " Prevent slow down on logn lines
+set synmaxcol=400                       " Prevent slow down on long lines
 set tabstop=2                           " How many columns a tab counts for
 set textwidth=140                       " Set MAX text width
 set ttimeout                            " Enable timeout for key codes
