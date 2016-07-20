@@ -137,16 +137,16 @@ silent! colorscheme base16-default-dark
 let g:used_javascript_libs = 'underscore,angularjs,jquery'
 
 " Make Jasmine files load the right syntax highlight and snippets
-autocmd BufNewFile,BufReadPre *Spec.js,*_spec.js let b:javascript_lib_use_jasmine = 1
-autocmd BufNewFile,BufReadPost *Spec.js,*_spec.js set ft=jasmine.javascript
+autocmd BufNewFile,BufReadPre *Spec.js,*_spec.js,*.spec.js let b:javascript_lib_use_jasmine = 1
+autocmd BufNewFile,BufReadPost *Spec.js,*_spec.js,*.spec.js set ft=jasmine.javascript
 
 " Backend using node and excluding jquery
 autocmd BufNewFile,BufReadPre */app/backend/*.js let b:javascript_lib_use_jquery = 0 | let b:javascript_lib_use_angular = 0
 autocmd BufNewFile,BufReadPost */app/backend/*.js set ft=node.javascript
 
 " Frontend using angular and jquery
-autocmd BufNewFile,BufReadPre */app/frontend/*.js let b:javascript_lib_use_jquery = 1 | let b:javascript_lib_use_angular = 1
-autocmd BufNewFile,BufReadPost */app/frontend/*.js set ft=angular.javascript
+autocmd BufNewFile,BufReadPre */app/**/*.js let b:javascript_lib_use_jquery = 1 | let b:javascript_lib_use_angular = 1
+autocmd BufNewFile,BufReadPost */app/**/*.js set ft=angular.javascript
 
 let g:UltiSnipsEnableSnipMate=0
 
