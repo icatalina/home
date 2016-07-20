@@ -54,3 +54,11 @@ export SHELL=$(which zsh)
 autoload -U promptinit && promptinit
 prompt pure
 
+
+# Mac Keyboard - I hope it will work for most keyboards
+bindkey    "^[[1~"          beginning-of-line
+bindkey    "^[[3~"          delete-char
+bindkey    "^[3;5~"         delete-char
+bindkey    "^[[4~"          end-of-line
+bindkey    "^[[5~"          up-line-or-search
+bindkey    "^[[6~"          down-line-or-search
