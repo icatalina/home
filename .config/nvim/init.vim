@@ -132,7 +132,7 @@ let g:html_indent_tags = 'li\|p'
 
 set background=dark                     " Sets a dark background
 let base16colorspace=256
-silent! colorscheme base16-default-dark
+colorscheme base16-default-dark
 
 let g:used_javascript_libs = 'underscore,angularjs,jquery'
 
