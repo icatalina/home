@@ -1,28 +1,5 @@
 # vim: syntax=gitconfig filetype=gitconfig
 
-[core]
-  #whitespace = fix,trailing-space
-  #autocrlf = input
-  commentchar = "\""
-  pager = diff-highlight | diff-so-fancy | less -r
-
-[mergetool "p4merge"]
-  cmd = /Applications/p4merge.app/Contents/MacOS/p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
-  keepTemporaries = false
-  trustExitCode = false
-  keepBackup = false
-
-[merge]
-  tool = p4merge
-
-[filter "hawser"]
-  clean = git hawser clean %f
-  smudge = git hawser smudge %f
-  required = true
-
-[push]
-  default = current
-
 [alias]
   st = status -sb
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
@@ -41,6 +18,11 @@
 [color]
   ui = always
 
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
 [color "diff"]
   meta = yellow bold
   commit = green bold
@@ -55,36 +37,52 @@
   newNormal = "green bold"
   newHighlight = "green bold 22"
 
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-
 [color "status"]
   added = green
   changed = yellow
   untracked = cyan
 
 [core]
-	excludesfile = /Users/ignacio.catalina/.config/git/ignore
-	autocrlf = false
-	safecrlf = false
+  #whitespace = fix,trailing-space
+  #autocrlf = input
+  commentchar = "\""
+  pager = diff-highlight | diff-so-fancy | less -r
+  excludesfile = /Users/ignacio.catalina/.config/git/ignore
+  autocrlf = false
+  safecrlf = false
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path =
 
-[mergetool "sourcetree"]
-	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.2.4/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-
-[push]
-  default = simple
+[filter "hawser"]
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
 
 [filter "lfs"]
   smudge = git-lfs smudge %f
   required = true
   clean = git-lfs clean %f
+
+[merge]
+  tool = p4merge
+
+[mergetool "p4merge"]
+  cmd = /Applications/p4merge.app/Contents/MacOS/p4merge "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+  keepTemporaries = false
+  trustExitCode = false
+  keepBackup = false
+
+[mergetool "sourcetree"]
+  cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.2.4/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+
+[pull]
+  default = current
+
+[push]
+  default = current
 
 [include]
   path = ~/.local/gitconfig
