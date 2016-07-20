@@ -2,6 +2,7 @@
 
 [alias]
   st = status -sb
+  stu = status -sbuno
   ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
   ls2 = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
