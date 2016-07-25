@@ -149,6 +149,7 @@ autocmd BufNewFile,BufReadPre */app/**/*.js let b:javascript_lib_use_jquery = 1 
 autocmd BufNewFile,BufReadPost */app/**/*.js set ft=angular.javascript
 
 let g:UltiSnipsEnableSnipMate=0
+let g:deoplete#enable_at_startup = 1
 
 call Load([
   \'buffergator',

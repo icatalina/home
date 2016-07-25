@@ -35,6 +35,11 @@ Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'hdima/python-syntax', { 'for': 'python' }
 Plug 'evanmiller/nginx-vim-syntax'
 
+function! DoRemote(arg)
+  UpdateRemotePlugins
+endfunction
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+
 "" Updated sass/scss syntax
 Plug 'tpope/vim-haml'
 
@@ -52,15 +57,15 @@ if version > 703
   " Plug 'morhetz/gruvbox'
 
   " Load on first insert mode
-  Plug 'SirVer/ultisnips', { 'on': [] }
-  Plug 'honza/vim-snippets', {'on': [] }
-  Plug 'Valloric/YouCompleteMe', { 'on': [], 'do': './install.py' }
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  " Plug 'Valloric/YouCompleteMe', { 'on': [], 'do': './install.py' }
 
-  augroup load_us_ycm
-    autocmd!
-    autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'vim-snippets')
-                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
-  augroup END
+""  augroup load_us_ycm
+""    autocmd!
+""    autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'vim-snippets')
+""                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
+""  augroup END
 endif
 
 let s:localFile = expand("~/.local/plugins.vim")
