@@ -110,6 +110,9 @@ nmap <Enter> o<Esc>
 "@n ,<Enter> > Creates a new line and keeps cursor position
 nmap ,<Enter> O<Esc>
 
+nmap <Leader>, :lprev<cr>
+nmap <Leader>. :lnext<cr>
+
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
