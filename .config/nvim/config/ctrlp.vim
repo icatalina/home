@@ -12,10 +12,11 @@ let g:ctrlp_cmd = 'CtrlPMRUFiles'
 " map <C-P> <Plug>(ctrlp)
 
 
+let g:ctrlp_map = ''
 let g:ctrlp_prompt_mappings = {
     \ 'PrtHistory(-1)':       ['<c-n>'],
     \ 'PrtHistory(1)':        [],
-    \ 'ToggleType(1)':        ['<c-f>', '<c-p>', '<c-up>'],
+    \ 'ToggleType(1)':        ['<c-f>', '<c-p>', '<c-u>'],
     \ }
 
 " MAPPINGS
@@ -27,6 +28,7 @@ nnoremap <silent> <Leader>pb :CtrlPBuffer<CR>
 "@n <Leader>pm > CtrlP - Fuzzy search Most Recent Files
 "@n <C-P> > CtrlP - Fuzzy search Most Recent Files
 nnoremap <silent> <Leader>pm :CtrlPMRU<CR>
+nnoremap <silent> <expr> <C-P> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlPMRUFiles\<cr>"
 
 " For Reference Only
 "@ctrlp <F5> > Purge the cache for the current directory to get new files, remove deleted files and apply new ignore options.
