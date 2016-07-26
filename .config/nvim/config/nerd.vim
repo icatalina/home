@@ -18,7 +18,6 @@ inoremap <F9> <c-o>:normal \c<CR>
 
 
 " NERDTree
-"
 let g:NERDTreeBookmarksFile=expand("~/.local/tmp/nerdtree.bookmarks")
 let g:NERDTreeIgnore=['\.DS_Store$', '\.pyc', '__pycache__', '__init__.py']
 let g:nerdtree_tabs_open_on_gui_startup=0
@@ -29,5 +28,8 @@ let g:NERDTreeMinimalUI=1
 "@n <Leader>n > Toggle NERDTree
 nnoremap <Leader>n :NERDTreeToggle<cr>
 " Find in Nerd Tree
-"@n <Leader>M > Find current file in NERDTree
-nmap <leader>m :NERDTreeFind<CR>
+"@n <Leader>N > Find current file in NERDTree
+nmap <leader>N :NERDTreeFind<CR>
+
+au BufEnter *NERD_tree_* silent! nunmap <Leader><Enter>
+au BufLeave *NERD_tree_* nmap   <Leader><Enter> :norm cdCD<CR>
