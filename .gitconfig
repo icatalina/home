@@ -33,7 +33,7 @@
   whitespace = red reverse
 
 [color "diff-highlight"]
-  oldNormal = red bold
+  oldNormal = "red bold"
   oldHighlight = "red bold 52"
   newNormal = "green bold"
   newHighlight = "green bold 22"
@@ -47,10 +47,13 @@
   #whitespace = fix,trailing-space
   #autocrlf = input
   commentchar = "\""
-  pager = diff-highlight | diff-so-fancy | less -r
+  pager = diff-so-fancy | less --tabs=4 -RFX
   excludesfile = /Users/ignacio.catalina/.config/git/ignore
   autocrlf = false
   safecrlf = false
+
+[diff-so-fancy]
+  useUnicodeRuler= false
 
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
