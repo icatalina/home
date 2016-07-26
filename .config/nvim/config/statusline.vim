@@ -50,13 +50,13 @@ set statusline+=%1*%(\ «%0.30{GetGitStatus()}»%)
 
 set statusline+=%=      "left/right separator
 
-"display an error if fileformat isn't unix
+" Display an error if fileformat is not UNIX
 set statusline+=%2*
 set statusline+=%([%R%H%{&ff!='unix'?','.&ff:''}%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''}]%)
 set statusline+=%([%{NeoMakeErrorCount()}%{StatuslineLongLineWarning()}%{StatuslineTabWarning()}%{StatuslineTrailingSpaceWarning()}]%)
 
 set statusline+=%*
-set statusline+=%([%v%),%(%p%%]%)  "cursor column
+set statusline+=%([%v%),%(%p%%]%)  " Cursor column
 set statusline+=%y"filetype
 
 set laststatus=2
