@@ -182,5 +182,6 @@ if !exists('g:snips_dismiss') && (!exists('g:snips_author') || !exists('g:snips_
   echo 'Add your g:snips_author and g:snips_email in your ~/.local/init.vim for UltiSnips to use them, otherwise set g:snips_dismiss = 1 in your .vimrc'
 endif
 
-
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
 

@@ -15,8 +15,17 @@ command! -nargs=+ -complete=file -bar Ags silent! grep! <args>|cwindow|redraw!
 " nnoremap K :!grep "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 "@n \\ > Trigger AG search
-nnoremap \\ :Ag<SPACE>
+nnoremap \\ :Ack!<SPACE>
+nnoremap <Leader>\ "zyiw:Ack! <C-R>=fnameescape(@z)<CR>
 
 "@v \\ > Trigger AG Search for the selected word
-vnoremap \\ "zy:Ag <C-r>=fnameescape(@z)<CR>
+vnoremap \\ "zy:Ack! <C-r>=fnameescape(@z)<CR>
 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep --smart-case'
+endif
+
+cnoreabbrev ag Ack!
+cnoreabbrev aG Ack!
+cnoreabbrev Ag Ack!
+cnoreabbrev AG Ack!

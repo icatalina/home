@@ -2,8 +2,8 @@ call plug#begin()
 
 Plug 'junegunn/vim-plug'
 
-Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind'] }
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind', 'NERDTree'] }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'benekastah/neomake', { 'on':  'Neomake' }
 Plug 'scrooloose/nerdcommenter'
@@ -11,7 +11,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/matchit.zip'
-Plug 'rking/ag.vim', { 'on': 'Ag' }
+" Deprecated, moved to ACK - Plug 'rking/ag.vim', { 'on': 'Ag' }
+Plug 'mileszs/ack.vim', { 'on': 'Ack'}
 Plug 'jeetsukumaran/vim-buffergator', { 'on': 'BuffergatorToggle' }
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
@@ -51,21 +52,22 @@ Plug 'beloglazov/vim-textobj-quotes'
 Plug 'lucapette/vim-textobj-underscore'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-if version > 703
-  " Color Schemas
-  Plug 'chriskempson/base16-vim'
-  " Plug 'morhetz/gruvbox'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 
-  " Load on first insert mode
+" Colorschemes
+" Plug 'chriskempson/base16-vim'
+
+if version > 703
+
+  function! DoRemote(arg)
+    UpdateRemotePlugins
+  endfunction
+
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
-  " Plug 'Valloric/YouCompleteMe', { 'on': [], 'do': './install.py' }
+  Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
-""  augroup load_us_ycm
-""    autocmd!
-""    autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe', 'vim-snippets')
-""                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
-""  augroup END
 endif
 
 let s:localFile = expand("~/.local/plugins.vim")
