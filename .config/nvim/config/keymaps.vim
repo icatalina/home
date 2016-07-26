@@ -106,8 +106,15 @@ nmap <Enter> o<Esc>
 "@n ,<Enter> > Creates a new line and keeps cursor position
 nmap ,<Enter> O<Esc>
 
+"@n <Leader>, > Moves to the previous item in the location list
 nmap <Leader>, :lprev<cr>
+"@n <Leader>. > Moves to the next item in the location list
 nmap <Leader>. :lnext<cr>
+
+"@n <Leader>f > Prints the current file path and copies it to the clipboard
+nmap <Leader>F :echo @%\|silent !printf % \| pbcopy<Esc>
+"@n <Leader>f > Prints the current file path
+nmap <Leader>f :echo @%<Esc>
 
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
