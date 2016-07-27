@@ -666,7 +666,7 @@ set statusline+=%1*%(\ %{SyntaxItem()}\ %)
 " Paste MODE On/Off
 set statusline+=%4*%(\ %{&paste?'PASTE':''}\ %)
 " FileName
-set statusline+=%*%(\ %-0.30t\ %)
+set statusline+=%*%(\ %t\ %)
 " Modified/ReadOnly
 set statusline+=%2*%(%m%r%)
 " Git Status
