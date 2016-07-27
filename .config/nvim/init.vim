@@ -420,8 +420,8 @@ nnoremap <Leader>n :NERDTreeToggle<cr>
 "@n <Leader>N > Find current file in NERDTree
 nmap <leader>N :NERDTreeFind<CR>
 
-au BufEnter *NERD_tree_* silent! nunmap <Leader><Enter>
-au BufLeave *NERD_tree_* nmap   <Leader><Enter> :norm cdCD<CR>
+au BufLeave *NERD_tree_* silent! nunmap <Leader><Enter>
+au BufEnter *NERD_tree_* nmap   <Leader><Enter> :norm cdCD<CR>
 
 " }}} Nerd* "
 " SilverSearcher - AG {{{ "
