@@ -28,5 +28,9 @@ quote_type = 'single'
 [*.py]
 indent_size = 4
 
+[*.php]
+indent_size = 4
+curly_bracket_next_line = false
+
 [*.diff]
 trim_trailing_whitespace = false
