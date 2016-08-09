@@ -52,6 +52,9 @@ eval `dircolors -b ~/.config/dircolors.theme`
 
 stty sane
 
+export PYENV_ROOT="$HOME/.pyenv"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 sourceif ~/.config/alias
-sourceif ~/.local/sourcefile
 
