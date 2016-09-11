@@ -90,3 +90,5 @@
 
 [include]
   path = ~/.local/gitconfig
+[commit]
+	gpgsign = true
