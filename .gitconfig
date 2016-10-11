@@ -1,23 +1,36 @@
 # vim: syntax=gitconfig filetype=gitconfig
 
 [alias]
-  st = status -sb
-  stu = status -sbuno
-  ls = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate
-  ls2 = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  lss2 = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+  fl = log --patch
+
   d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
-  lss = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate -20
-  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
-  lnc = log --pretty=format:"%h\\ %s\\ [%cn]"
-  fl = log -u
-  show-files = diff-tree --no-commit-id -M --name-status -r
-  df = diff --cached
-  dfw = diff --cached -w --word-diff=color
-  ca = clean -f -d
-  sclone = clone --depth=1
+
+  z-log = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %C(blue)[%an]%C(dim\\ magenta)[%cn]" --decorate
+  z-log-20 = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %C(blue)[%an]%C(dim\\ magenta)[%cn]" --decorate -20
+  z-log-with-file-stats = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %C(blue)[%an]%C(dim\\ magenta)[%cn]" --decorate --numstat
+
+  z-status = status --short --branch
+  z-status-tracked-only = status --short --branch --untracked-files=no
+
+  z-add-tracked = add --update
+  z-add-patch = add --patch
+
+  z-new-branch = checkout -b
+
+  z-diff-word = diff --ignore-all-space --word-diff=color
+  z-diff-word-cached = diff --cached --ignore-all-space --word-diff=color
+
+  # -d:  Remove untracked directories in addition to untracked files.
+  z-clean-all = clean --force -d
+
+  # -r: recursive
+  z-show-files = diff-tree --no-commit-id --find-renames --name-status -r
+  z-shallow-clone = clone --depth=1
 
 [color]
-  ui = always
+  ui = true
 
 [color "branch"]
   current = yellow reverse
@@ -90,5 +103,7 @@
 
 [include]
   path = ~/.local/gitconfig
+
 [commit]
-	gpgsign = true
+  gpgsign = true
+
