@@ -1,3 +1,6 @@
+test -e "$HOME/.config/zsh/bashprofile" && source "$HOME/.config/zsh/bashprofile"
+test -e "$HOME/.local/bashprofile"      && source "$HOME/.local/bashprofile"
+
 test -e "$HOME/.config/sourcefile" && source "$HOME/.config/sourcefile"
 test -e "$HOME/.local/sourcefile"  && source "$HOME/.local/sourcefile"
 
