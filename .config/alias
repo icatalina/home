@@ -110,6 +110,10 @@ alias Vim=vim
 alias VIm=vim
 alias VIM=vim
 
+if hash trash 2>/dev/null; then
+  alias rm='trash'
+fi
+
 ## Aliases cask to brew cask if brew is installed
 if hash brew 2>/dev/null; then
   alias cask="brew cask"
