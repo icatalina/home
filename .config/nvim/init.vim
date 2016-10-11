@@ -1,10 +1,6 @@
 " init.vim
 " Neovim init (in place of vimrc)
 
-" set termguicolors
-
-let g:icc_vim_dir = fnamemodify(resolve(expand('$MYVIMRC')), ':p:h')
-
 " ============================================================================
 " :terminal emulator
 " ============================================================================
@@ -88,4 +84,4 @@ try
   Guifont Fira Mono For Powerline:h8
 endtry
 
-execute 'source ' . g:icc_vim_dir . '/vimrc'
+execute 'source ' . fnamemodify($MYVIMRC, ':p:h') . '/vimrc'

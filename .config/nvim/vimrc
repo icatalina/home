@@ -1,4 +1,5 @@
-" vim:set fdm=marker:set foldenable:set foldlevel=1:
+" vim: fdm=marker foldenable foldlevel=0
+set termguicolors
 
 let $VIMHOME=expand("~/.vim")
 let $LOCALFOLDER=expand("~/.local")
@@ -12,6 +13,20 @@ scriptencoding utf-8
 
 " Used by anything that needs to change/use loc list
 let g:icc_loc_list_height = 10
+
+" ============================================================================
+" My autocmd block - Clear vimrc group's autocmds if reloading
+" ============================================================================
+augroup vimrc
+  autocmd!
+augroup END
+
+"" Defaults
+
+set modeline
+set pastetoggle=<F2>
+
+filetype plugin indent on
 
 " Functions {{{ "
 
@@ -129,21 +144,6 @@ function! CreateIfNotExist(dir)
 endfunction
 
 " }}} Functions "
-
-" ============================================================================
-" My autocmd block - Clear vimrc group's autocmds if reloading
-" ============================================================================
-augroup vimrc
-  autocmd!
-augroup END
-
-"" Defaults
-
-set modeline
-set pastetoggle=<F2>
-
-filetype plugin indent on
-
 " Display {{{ "
 
 set title                           " wintitle = filename - vim
@@ -157,7 +157,7 @@ set visualbell t_vb=
 
 set number                          " Makes the current line to show the linenumber instead of 0
 set relativenumber                  " Show relative numbers
-set numberwidth=5
+set numberwidth=4
 
 " show context around current cursor position
 set scrolloff=8                     " Minium number of lines above and below the cursor
@@ -240,17 +240,17 @@ set fileformat=unix
 " }}} File Saving "
 " Create Temporary Directories {{{ "
 
-call CreateIfNotExist(g:icc_vim_dir . '/.tmp/swap')
-call CreateIfNotExist(g:icc_vim_dir . '/.tmp/viminfo')
-call CreateIfNotExist(g:icc_vim_dir . '/.tmp/backup/')
-call CreateIfNotExist(g:icc_vim_dir . '/.tmp/undo/')
+call CreateIfNotExist($VIMHOME . '/.tmp/swap')
+call CreateIfNotExist($VIMHOME . '/.tmp/viminfo')
+call CreateIfNotExist($VIMHOME . '/.tmp/backup/')
+call CreateIfNotExist($VIMHOME . '/.tmp/undo/')
 
 " }}} Create Temporary Directories "
 " VimInfo {{{ "
 
 " info file -- nvim uses shada in $XDG_DATA_HOME so that's cool.
 if !has('nvim')
-  execute 'set viminfo+=n' . expand(g:icc_vim_dir . '/.tmp/viminfo')
+  execute 'set viminfo+=n' . $VIMHOME . '/.tmp/viminfo'
 endif
 
 " From https://github.com/swizzard/dotfiles/blob/master/.vimrc
@@ -271,7 +271,7 @@ endif
 
 " swap - useless
 set noswapfile
-execute 'set directory=' . g:icc_vim_dir . '/.tmp/swap//'
+execute 'set directory=' . $VIMHOME . '/.tmp/swap//'
 
 " }}} Swap "
 " Backup {{{ "
@@ -286,7 +286,7 @@ if has('mac')
     autocmd BufEnter  /private/tmp/crontab.*  setlocal backupcopy=yes
   augroup END
 endif
-execute 'set backupdir=' . g:icc_vim_dir . '/.tmp/backup//'
+execute 'set backupdir=' . $VIMHOME . '/.tmp/backup//'
 set backup
 
 " }}} Backup "
@@ -297,7 +297,7 @@ set backup
 set undofile
 set undolevels=1000
 set undoreload=10000
-execute 'set undodir=' . g:icc_vim_dir . '/.tmp/undo//'
+execute 'set undodir=' . $VIMHOME . '/.tmp/undo//'
 
 " }}} Undo "
 " Completion {{{ "
@@ -510,6 +510,7 @@ Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 
 Plug 'sheerun/vim-polyglot'
+Plug 'bogado/file-line'
 
 "--------------------------------------------------------
 " Replaced by vim-polyglot
@@ -1108,6 +1109,15 @@ nmap <Leader>f :echo @%<Esc>
 " visual shifting (does not exit Visual mode)
 vnoremap < <gv
 vnoremap > >gv
+
+" Command navigation
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+cnoremap <C-b> <Left>
+cnoremap <C-f> <Right>
+cnoremap <C-g> <CR>/<C-P>
 
 "" Uppercase Commands
 if has("user_commands")
