@@ -1,8 +1,8 @@
-source ~/.config/sourceif.fun
+test -e "$HOME/.config/sourcefile" && source "$HOME/.config/sourcefile"
+test -e "$HOME/.local/sourcefile"  && source "$HOME/.local/sourcefile"
 
-sourceif ~/.config/sourcefile
-sourceif ~/.local/sourcefile
-
+test -e "$HOME/.config/alias" && source "$HOME/.config/alias"
+test -e "$HOME/.local/alias"  && source "$HOME/.local/alias"
 shopt -s histappend
 shopt -s cmdhist
 HISTFILESIZE=1000000

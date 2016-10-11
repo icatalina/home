@@ -28,7 +28,7 @@ export LSCOLORS=ExFxCxDxBxegedabagacad
 
 unsetopt nomatch
 
-sourceif ~/.config/zsh/zsh_keymaps
+test -e "$HOME/.config/zsh/zsh_keymaps" && source "$HOME/.config/zsh/zsh_keymaps"
 
 export KEYTIMEOUT=1
 bindkey -e
