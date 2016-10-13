@@ -2,6 +2,7 @@
 set termguicolors
 
 let $VIMHOME=expand("~/.vim")
+let $VIM_TEMP=expand("~/.vim/_tmp")
 let $LOCALFOLDER=expand("~/.local")
 
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
@@ -240,17 +241,16 @@ set fileformat=unix
 " }}} File Saving "
 " Create Temporary Directories {{{ "
 
-call CreateIfNotExist($VIMHOME . '/.tmp/swap')
-call CreateIfNotExist($VIMHOME . '/.tmp/viminfo')
-call CreateIfNotExist($VIMHOME . '/.tmp/backup/')
-call CreateIfNotExist($VIMHOME . '/.tmp/undo/')
+call CreateIfNotExist($VIM_TEMP . '/swap')
+call CreateIfNotExist($VIM_TEMP . '/backup/')
+call CreateIfNotExist($VIM_TEMP . '/undo/')
 
 " }}} Create Temporary Directories "
 " VimInfo {{{ "
 
 " info file -- nvim uses shada in $XDG_DATA_HOME so that's cool.
 if !has('nvim')
-  execute 'set viminfo+=n' . $VIMHOME . '/.tmp/viminfo'
+  execute 'set viminfo+=n' . $VIM_TEMP . '/viminfo'
 endif
 
 " From https://github.com/swizzard/dotfiles/blob/master/.vimrc
@@ -271,7 +271,7 @@ endif
 
 " swap - useless
 set noswapfile
-execute 'set directory=' . $VIMHOME . '/.tmp/swap//'
+execute 'set directory=' . $VIM_TEMP . '/swap//'
 
 " }}} Swap "
 " Backup {{{ "
@@ -286,7 +286,7 @@ if has('mac')
     autocmd BufEnter  /private/tmp/crontab.*  setlocal backupcopy=yes
   augroup END
 endif
-execute 'set backupdir=' . $VIMHOME . '/.tmp/backup//'
+execute 'set backupdir=' . $VIM_TEMP . '/backup//'
 set backup
 
 " }}} Backup "
@@ -297,7 +297,7 @@ set backup
 set undofile
 set undolevels=1000
 set undoreload=10000
-execute 'set undodir=' . $VIMHOME . '/.tmp/undo//'
+execute 'set undodir=' . $VIM_TEMP . '/undo//'
 
 " }}} Undo "
 " Completion {{{ "
