@@ -44,6 +44,7 @@ brewApps=(
   "vim --with-override-system-vi"
   "reattach-to-user-namespace"
   "neovim/neovim/neovim"
+  "pyenv-virtualenv"
 )
 
 caskApps=(
