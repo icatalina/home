@@ -1013,6 +1013,9 @@ vnoremap <Leader>sz :sort!<CR>
 "@n <Leader>sr > Search aand Replace
 nnoremap <Leader>sr :%s/
 
+"@n <Leader>sb > Sorts a block alphabetically (CSS/SCSS)
+nnoremap <Leader>sb :norm viB<Space>sa<cr>
+
 "@v \/ > Search in Visual Selection
 vnoremap \/ <Esc>/\%V
 
