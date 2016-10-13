@@ -46,20 +46,21 @@ export PATH="$HOME/.bin:$PATH"
 
 
 ## Export GO Home folder if go is installed
+# GO Configuration {{{ #
 if hash go 2>/dev/null; then
   export GOPATH="$HOME/.config/go"
 fi
+# }}} GO Configuration #
+
+# Pyenv Configuration {{{ #
+export PYENV_ROOT="$HOME/.pyenv"
+if hash pyenv 2>/dev/null; then
+  export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+# }}} Pyenv Configuration #
 
 eval `dircolors -b ~/.config/dircolors.theme`
 
 stty sane
-
-export PYENV_ROOT="$HOME/.pyenv"
-
-eval "`pyenv init -`"
-eval "`pyenv virtualenv-init -`"
-
-if hash pyenv 2>/dev/null; then
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-fi
