@@ -42,6 +42,8 @@ export BASE16_SHELL=~/.config/zsh/base16-shell/base16-flat.dark.sh
 # Specify your defaults in this environment variable
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
+export PATH="$HOME/.bin:$PATH"
+
 
 ## Export GO Home folder if go is installed
 if hash go 2>/dev/null; then
