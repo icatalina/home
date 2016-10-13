@@ -96,12 +96,16 @@ alias nr='z-npm-run'
 alias cfg='z-git-config-repo'
 alias mkdir='z-mkdir-parents'
 
+if hash nvim 2>/dev/null; then
+  alias rm=trash
+fi
+
 alias desk='z-go-desktop'
 alias dev='z-go-develop'
 
 ## If nvim is available, alias it to vim
 if hash nvim 2>/dev/null; then
-  alias vim=`which nvim`
+  alias vim=nvim
   export VISUAL=`which nvim`
   export EDITOR=`which nvim`
 fi
