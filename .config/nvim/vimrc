@@ -402,16 +402,15 @@ set nocindent
 " }}}  Indenting "
 " Tabbing {{{ "
 
-set expandtab                         " default to spaces instead of tabs
-set shiftwidth=2                      " softtabs are 2 spaces for expandtab
-
-" Alignment tabs are two spaces, and never tabs. Negative means use same as
-" shiftwidth (so the 2 actually doesn't matter).
-set softtabstop=-2
 
 " real tabs render width. Applicable to HTML, PHP, anything using real tabs.
 " I.e., not applicable to JS.
 set tabstop=2
+
+set expandtab                         " default to spaces instead of tabs
+set shiftwidth=0                      " softtabs are 2 spaces for expandtab
+set softtabstop=-1                    " Negative makes it follow tabstop
+
 
 " use multiple of shiftwidth when shifting indent levels.
 " this is OFF so block comments don't get fudged when using ">>" and "<<"
