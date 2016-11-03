@@ -482,6 +482,10 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'benekastah/neomake', { 'on':  'Neomake' }
 Plug 'scrooloose/nerdcommenter'
 
+if executable('editorconfig')
+  let g:EditorConfig_core_mode = 'external_command'
+endif
+
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/matchit.zip'
