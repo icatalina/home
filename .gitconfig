@@ -101,6 +101,7 @@
   default = current
 
 [push]
+  followTags = true
   default = current
 
 [include]
