@@ -20,13 +20,6 @@ scriptencoding utf-8
 " Used by anything that needs to change/use loc list
 let g:icc_loc_list_height = 10
 
-" ============================================================================
-" My autocmd block - Clear vimrc group's autocmds if reloading
-" ============================================================================
-augroup vimrc
-  autocmd!
-augroup END
-
 "" Defaults
 
 set modeline
