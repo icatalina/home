@@ -469,7 +469,6 @@ let base16colorspace=256
 colorscheme base16-default-dark
 
 " }}} Settings "
-
 " Plugins {{{ "
 
 call plug#begin()
@@ -487,15 +486,14 @@ if executable('editorconfig')
 endif
 
 Plug 'editorconfig/editorconfig-vim'
+
 Plug 'tpope/vim-surround'
 Plug 'vim-scripts/matchit.zip'
-" Deprecated, moved to ACK
-" Plug 'rking/ag.vim', { 'on': 'Ag' }
+
 Plug 'mileszs/ack.vim', { 'on': 'Ack'}
 Plug 'jeetsukumaran/vim-buffergator', { 'on': 'BuffergatorToggle' }
 Plug 'airblade/vim-gitgutter'
 Plug 'alvan/vim-closetag'
-" Plug 'Raimondi/delimitMate'
 Plug 'jiangmiao/auto-pairs'
 
 " Javascript Functionallity
@@ -506,21 +504,6 @@ Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 
 Plug 'sheerun/vim-polyglot'
 Plug 'bogado/file-line'
-
-"--------------------------------------------------------
-" Replaced by vim-polyglot
-"--------------------------------------------------------
-" Syntaxes
-" Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-" Plug 'groenewege/vim-less', { 'for': 'less' }
-" Plug 'ekalinin/Dockerfile.vim', { 'for': 'Dockerfile' }
-" Plug 'elzr/vim-json', { 'for': 'json' }
-" Plug 'evidens/vim-twig'
-" Plug 'othree/html5.vim', { 'for': 'html' }
-" Plug 'hdima/python-syntax', { 'for': 'python' }
-" Plug 'evanmiller/nginx-vim-syntax'
-" Plug 'tpope/vim-haml'
-"--------------------------------------------------------
 
 Plug 'dansomething/ftl-vim-syntax'
 Plug 'hail2u/vim-css3-syntax'
@@ -549,7 +532,6 @@ endif
 call plug#end()
 
 " }}} Plugins "
-
 " BufferGator {{{ "
 
   let g:buffergator_autodismiss_on_select=1
@@ -1042,9 +1024,6 @@ inoremap <C-_> <c-o>:update<cr>
 "@v <C-_> > Save only if modified
 vnoremap <C-_> <c-c>:update<cr>v
 
-"@ <F11> > Zoom Tmux pane
-map <silent> <F11> :silent !tmux resize-pane -Z<CR>
-
 "@i <C-6> > Esc and change to previous buffer
 inoremap <C-^> <Esc>:b#<cr>
 
@@ -1083,26 +1062,14 @@ imap <silent> <F1> <c-o>:set relativenumber!<CR>
 "@ <F2> > Paste Toggle
 set pastetoggle=<F2>
 
-"@n <F3> > Undo Tree (GundoToggle)
-nnoremap <F3> :GundoToggle<CR>
-
 "@ <F7> > Move the items in the QuickList to the ToArgs List
 map <F7> :call QuickListToArgs()<CR>
-
-"@ <F12> > Reload BASE16 and Redraw
-imap <silent><F12> <c-o>:execute 'silent !source $BASE16_SHELL'<CR><c-o>:redr!<CR>
-map <silent><F12> :execute 'silent !source $BASE16_SHELL'<CR>:redr!<CR>
 
 "@n ,p > Paste on next line
 nmap ,p :put<CR>
 
 "@n ,P > Paste on next line
 nmap ,P :put!<CR>
-
-"@n <Enter> > Creates a new line
-nmap <Enter> o<Esc>
-"@n ,<Enter> > Creates a new line and keeps cursor position
-nmap ,<Enter> O<Esc>
 
 "@n <Leader>, > Moves to the previous item in the location list
 nmap <Leader>, :lprev<cr>
@@ -1113,10 +1080,6 @@ nmap <Leader>. :lnext<cr>
 nmap <Leader>F :echo @%\|silent !printf % \| pbcopy<Esc>
 "@n <Leader>f > Prints the current file path
 nmap <Leader>f :echo @%<Esc>
-
-" visual shifting (does not exit Visual mode)
-vnoremap < <gv
-vnoremap > >gv
 
 " Command navigation
 cnoremap <C-a> <Home>
@@ -1164,7 +1127,6 @@ highlight! vimHiAttribList guifg=red guibg=#333333 gui=reverse
 highlight! vimHiKeyError guifg=red guibg=#333333 gui=reverse
 highlight! Error guifg=red guibg=#333333 gui=reverse
 highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
-
 
 " }}} Highlight options "
 " Autocommands {{{ "
