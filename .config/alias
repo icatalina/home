@@ -113,6 +113,8 @@ fi
 alias Vim=vim
 alias VIm=vim
 alias VIM=vim
+alias vimrc='vim ~/.vim/vimrc'
+alias valias='vim ~/.config/alias'
 
 if hash trash 2>/dev/null; then
   alias rm='trash'
