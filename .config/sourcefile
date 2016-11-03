@@ -31,6 +31,32 @@ if !hash pwdx 2>/dev/null; then
   }
 fi
 
+# Adds a git remote,
+# $1 = remote name
+# $2 = replaces :repo_name/ => :$2/
+addremote () {
+    if [ $# -lt 1 ]; then
+      echo "You need to specify the remote name."
+      echo "$0 origin_name [repo]"
+      return 1
+    fi
+
+    new_remote=$1
+    new_repo=$1
+
+    if [ "$2" != "" ]; then
+        new_repo=$2
+    fi
+
+    remote_url=`git ls-remote --get-url`
+    new_remote_url=`echo $remote_url | sed "s/:.*\?\//:$new_repo\//"`
+    git remote add "$new_remote" "$new_remote_url"
+
+    if [ $? -eq 0 ]; then
+        git remote -v
+    fi
+}
+
 # Creating Temporal Directory
 if [ ! -d '~/.local./tmp' ]; then
   mkdir -p ~/.local/tmp
