@@ -85,6 +85,8 @@ alias z-notify="say 'finished!'"
 
 alias z-remove-dsstore='find -name .DS_Store -type f | xargs -i rm "{}"'
 
+alias z-github-repo="git ls-remote --get-url | sed 's/:/\//' | sed 's/git@/https:\/\//' | xargs open"
+
 # Shortcuts
 alias ll='z-fancy-ls'
 alias pm='z-python-manage'
@@ -95,6 +97,7 @@ alias nl='z-node-list-local'
 alias nr='z-npm-run'
 alias cfg='z-git-config-repo'
 alias mkdir='z-mkdir-parents'
+alias github='z-github-repo'
 
 if hash nvim 2>/dev/null; then
   alias rm=trash
@@ -211,3 +214,6 @@ dcxa () {
 dsetup () {
   eval `docker-machine env "$@"`;
 }
+
+alias gulp='nr gulp'
+
