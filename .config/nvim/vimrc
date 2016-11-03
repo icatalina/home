@@ -21,11 +21,8 @@ scriptencoding utf-8
 let g:icc_loc_list_height = 10
 
 "" Defaults
-
 set modeline
 set pastetoggle=<F2>
-
-filetype plugin indent on
 
 " Functions {{{ "
 
@@ -166,9 +163,6 @@ set colorcolumn=80
 set cursorline                      " Enable cursor line
 
 set synmaxcol=400                   " Don't syntax highlight long lines
-
-syntax sync minlines=300
-syntax on
 
 " }}} Display "
 " Tab Line {{{ "
@@ -763,6 +757,16 @@ if exists("g:plugs['deoplete.nvim']")
 endif
 
 " }}} Deoplete "
+
+" It needs to be before the status line and after the plugin to prevent
+" duplication on the load of filetypes.vim
+syntax sync minlines=300
+syntax enable
+" This prevents the reload of filetypes.vim
+let s:filetype=execute('filetype')
+if  s:filetype =~ 'detection:OFF' | filetype on        | endif
+if  s:filetype =~ 'plugin:OFF'    | filetype plugin on | endif
+if  s:filetype =~ 'indent:OFF'    | filetype indent on | endif
 
 " StatusLine - Helpers {{{ "
 
