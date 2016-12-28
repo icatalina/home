@@ -5,24 +5,8 @@ let $VIMHOME=expand("~/.vim")
 let $VIM_TEMP=expand("~/.vim/_tmp")
 let $LOCALFOLDER=expand("~/.local")
 
-if has('nvim')
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-else
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
 if has('vim_starting') | set encoding=utf-8 nobomb | endif
 scriptencoding utf-8
-" note: set encoding BEFORE scriptencoding
-
-" Used by anything that needs to change/use loc list
-let g:icc_loc_list_height = 10
-
-"" Defaults
-set modeline
-set pastetoggle=<F2>
 
 " Functions {{{ "
 
@@ -47,52 +31,8 @@ function! TrimTrailingWhitespace()
     endtry
 endfunction
 
-" Inserts a new line
-" Inputs: "up" or "down"
-" If no input is specified, down is assumed
-function! InsertNewLine(...)
-
-    if !&modifiable
-      return
-    endif
-
-    let g:cursor=getpos(".")
-
-    if a:0 > 0 && a:1 == 'up'
-        let l:command=':i.'
-        let g:cursor[1] = g:cursor[1] + 1
-    elseif a:0 == 0 || (a:0 > 0 && a:1 == 'down')
-       let l:command=':a.'
-    else
-        return
-    endif
-
-    try
-        exec "normal " . l:command
-    finally
-        keepjumps call setpos(".", g:cursor)
-    endtry
-
-endfunction
-
 " Adds the quicklist items to the Argslist
-function! QuickListToArgs()
-  let l:list = {}
-  let l:ouptut = ''
-
-  exe 'silent! argd *'
-
-  for file in getqflist()
-    let l:list[bufname(file.bufnr)] = 1
-  endfor
-
-  let l:output = join(keys(l:list))
-  let g:output = join(keys(l:list))
-
-  exe 'silent! arga' l:output
-  exe 'silent! cclose'
-  exe 'args'
-endfunction
+" :cfdo argadd
 
 " Meassure file size and disable some stuff if too big
 function! LongFiles()
@@ -102,22 +42,6 @@ function! LongFiles()
         setlocal noautoindent nocindent nosmartindent indentexpr=
         setlocal syntax=OFF
     endif
-endfunction
-
-"
-" Times the number of times a particular command takes to execute the specified number of times (in seconds).
-function! HowLong( command, numberOfTimes )
-  " We don't want to be prompted by a message if the command being tried is
-  " an echo as that would slow things down while waiting for user input.
-  let more = &more
-  set nomore
-  let startTime = localtime()
-  for i in range( a:numberOfTimes )
-    execute a:command
-  endfor
-  let result = localtime() - startTime
-  let &more = more
-  return result
 endfunction
 
 "jump to last cursor position when opening a file
@@ -140,100 +64,9 @@ function! CreateIfNotExist(dir)
 endfunction
 
 " }}} Functions "
-" Display {{{ "
 
-set title                           " wintitle = filename - vim
-
-if !has('nvim')
-  set lazyredraw                    " macros don't update display
-endif
-
-" no beeps or flashes
-set visualbell t_vb=
-
-set number                          " Makes the current line to show the linenumber instead of 0
-set relativenumber                  " Show relative numbers
-set numberwidth=4
-
-" show context around current cursor position
-set scrolloff=8                     " Minium number of lines above and below the cursor
-set sidescrolloff=16                " Minium number of characters left and right of the cursor
-
-set colorcolumn=80
-set cursorline                      " Enable cursor line
-
-set synmaxcol=400                   " Don't syntax highlight long lines
-
-" }}} Display "
-" Tab Line {{{ "
-
-" Hide Tabs on the top of the window
-" Start OFF, toggle =2 to show tabline
-set showtabline=0
-
-" }}} Tab Line "
-" Status Line {{{ "
-
-" Shows the status bar all the time
-set laststatus=2
-
-" }}} Status Line "
-" Command Line {{{ "
-
-set noshowcmd                         " show incomplete commands (SLOW so off)
-set noshowmode                        " don't show -- INSERT -- in cmdline
-set cmdheight=2                       " Cmd area height
-
-" }}} Command Line "
-" Input Methods {{{ "
-
-" Mouse
-" ----------------------------------------
-
-set mouse=a
-if !has('nvim') | set ttymouse=xterm | endif
-
-" Typing key combos
-" ----------------------------------------
-
-set notimeout
-set ttimeout
-set ttimeoutlen=10
-set updatetime=200                  " Time in ms to consider vim 'idle'
-
-let mapleader = " "
-
-" }}} Input Methods "
-" Wild and file globbing stuff in command mode {{{ "
-
-set browsedir=buffer                  " browse files in same dir as open file
-set wildmenu                          " Enhanced command line completion.
-set wildmode=list:longest,full        " Complete files using a menu AND list
-set wildignorecase
-" output, VCS
-set wildignore+=.git,.hg,.svn
-set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*,*.gem
-set wildignore+=*.aux,*.out,*.toc
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.rbc,*.class
-set wildignore+=*.ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp
-set wildignore+=*.avi,*.m4a,*.mp3,*.oga,*.ogg,*.wav,*.webm
-set wildignore+=*.eot,*.otf,*.ttf,*.woff
-set wildignore+=*.doc,*.pdf
-set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
-set wildignore+=*.swp,.lock,.DS_Store,._*
-
-" }}} Wild and file globbing stuff in command mode "
-" File Saving {{{ "
-
-set autoread                        " Automatically read files that have been changed on disk
-
-set fileformats=unix,dos,mac        " Preference for file formats
-set fileformat=unix
-
-" }}} File Saving "
 " Create Temporary Directories {{{ "
 
-call CreateIfNotExist($VIM_TEMP . '/swap')
 call CreateIfNotExist($VIM_TEMP . '/backup/')
 call CreateIfNotExist($VIM_TEMP . '/undo/')
 
@@ -241,10 +74,6 @@ call CreateIfNotExist($VIM_TEMP . '/undo/')
 " VimInfo {{{ "
 
 " info file -- nvim uses shada in $XDG_DATA_HOME so that's cool.
-if !has('nvim')
-  execute 'set viminfo+=n' . $VIM_TEMP . '/viminfo'
-endif
-
 " From https://github.com/swizzard/dotfiles/blob/master/.vimrc
 " Don't keep .viminfo information for files in temporary directories or shared
 " memory filesystems; this is because they're used as scratch spaces for tools
@@ -259,77 +88,63 @@ if !has('nvim') && has('viminfo')
 endif
 
 " }}} VimInfo "
-" Swap {{{ "
 
-" swap - useless
-set noswapfile
-execute 'set directory=' . $VIM_TEMP . '/swap//'
+let mapleader = " "
 
-" }}} Swap "
-" Backup {{{ "
-
-" backups
-set backupskip=/tmp/*
-" Make Vim able to edit crontab files again.
-set backupskip+=,/private/tmp/*"
-if has('mac')
-  augroup iccmac
-    autocmd!
-    autocmd BufEnter  /private/tmp/crontab.*  setlocal backupcopy=yes
-  augroup END
-endif
-execute 'set backupdir=' . $VIM_TEMP . '/backup//'
-set backup
-
-" }}} Backup "
-" Undo {{{ "
-
-" undo files
-" double slash means create dir structure to mirror file's path
-set undofile
-set undolevels=1000
-set undoreload=10000
-execute 'set undodir=' . $VIM_TEMP . '/undo//'
-
-" }}} Undo "
-" Completion {{{ "
-
+set autoread                          " Automatically read files that have been changed on disk
+set backup                            " Enable backups
+set backupskip=/tmp/*                 " Skip backups for this folder
+set browsedir=buffer                  " browse files in same dir as open file
+set cmdheight=2                       " Cmd area height
+set colorcolumn=80                    " Mark the 80th column
 set complete-=i                       " don't complete includes
 set complete-=t                       " don't complete tags
-set completeopt-=preview              " don't open scratch preview
 set completeopt+=menu,menuone         " show PUM, even for one thing
-
-" @see <https://github.com/Valloric/YouCompleteMe/blob/master/autoload/youcompleteme.vim#L343>
-if has('patch-7.4.314')
-  set shortmess+=c                    " Disable "Pattern not found" messages
-endif
-
-" }}} Completion "
-" Splits and buffers {{{ "
-
-set splitbelow
-set splitright
+set completeopt-=preview              " don't open scratch preview
+set cursorline                        " Enable cursor line
+set fileformat=unix                   " Prefered format
+set fileformats=unix,dos,mac          " Preference list for file formats
 set fillchars=vert:│                  " Vertical sep for splits (unicode bar)
-
-set hidden                            " Enable multiple modified buffers
-
-" reveal already opened files from the quickfix window instead of opening new
-" buffers
-set switchbuf=useopen
-
-set nostartofline                     " Don't reset cursor to start of line when moving around
-
-" }}} Splits and buffers "
-" Code Folding {{{ "
-
-set nofoldenable
-set foldcolumn=2
+set foldcolumn=1                      " Show a column with this width showing the folds
 set foldlevel=99                      " show all folds by default
 set foldlevelstart=99                 " show all folds by default
+set hidden                            " Enable multiple modified buffers
+set laststatus=2                      " Shows the status bar all the time
+set lazyredraw                        " macros don't update display
+set modeline                          " Enable modelines (comments on first line)
+set mouse=a                           " Enable Mouse
+set nojoinspaces                      " J command doesn't add extra space
+set noshowcmd                         " show incomplete commands (SLOW so off)
+set noshowmode                        " don't show -- INSERT -- in cmdline
+set nostartofline                     " Don't reset cursor to start of line when moving around
+set noswapfile                        " Don't create a swap file (useless)
+set notimeout                         " No timeouts
+set nottimeout                        " No timeouts
+set nowrap                            " Don't wrap lines
+set nrformats-=octal                  " never use octal when <C-x> or <C-a>
+set number                            " Makes the current line to show the linenumber instead of 0
+set numberwidth=4                     " Size of the numbers column
+set scrolloff=8                       " Minium number of lines above and below the cursor
+set sidescrolloff=16                  " Minium number of characters left and right of the cursor
+set splitbelow                        " Open new splits below
+set splitright                        " Open new Split to the right
+set switchbuf=useopen                 " Reuse opened buffers when using the quickfix
+set synmaxcol=400                     " Don't syntax highlight long lines
+set title                             " wintitle = filename - vim
+set undofile                          " Use an undo file
+set undolevels=1000                   " Number of undolevels
+set undoreload=10000                  " Save the whole buffer for undo when reloading it
+set updatetime=200                    " Time in ms to consider vim 'idle'
+set visualbell t_vb=                  " no beeps or flashes
+set wildignorecase                    " When set case is ignored when completing file names and directories.
+set wildmenu                          " Enhanced command line completion.
+set wildmode=list:longest,full        " Complete files using a menu AND list
+set expandtab                         " default to spaces instead of tabs
+set tabstop=2                         " Set tab size
+set shiftwidth=0                      " softtabs are 2 spaces for expandtab
+set softtabstop=-1                    " Negative makes it follow tabstop
 
-" }}} Code Folding "
-" Trailing Whitespace {{{ "
-
+" Invisible characters
 set list
 set listchars=
 set listchars+=tab:→\                 " Don't remove comment, keeping trailing whitespace
@@ -338,20 +153,16 @@ set listchars+=extends:»              " show cut off when nowrap
 set listchars+=precedes:«
 set listchars+=nbsp:⣿
 
-" }}} Trailing Whitespace "
-" Diffing {{{ "
-
-" Note this is += since fillchars was defined in splits
-set fillchars+=diff:⣿
-set diffopt=vertical                  " Use in vertical diff mode
-set diffopt+=filler                   " blank lines to keep sides aligned
-set diffopt+=iwhite                   " Ignore whitespace changes
-
-" }}} Diffing "
-" Input Formatting {{{ "
-
-" Probably need to update these in after/ftplugin
-" too since ftplugins will probably update it.
+set wildignore+=.git,.hg,.svn
+set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*,*.gem
+set wildignore+=*.aux,*.out,*.toc
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.rbc,*.class
+set wildignore+=*.ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp
+set wildignore+=*.avi,*.m4a,*.mp3,*.oga,*.ogg,*.wav,*.webm
+set wildignore+=*.eot,*.otf,*.ttf,*.woff
+set wildignore+=*.doc,*.pdf
+set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
+set wildignore+=*.swp,.lock,.DS_Store,._*
 
 set formatoptions=
 set formatoptions+=c                  " Auto-wrap comments using textwidth
@@ -363,54 +174,36 @@ set formatoptions+=n                  " Recognize numbered lists
 set formatoptions+=2                  " Use indent from 2nd line of a paragraph
 set formatoptions-=l                  " break lines that are already long?
 set formatoptions+=1                  " Break before 1-letter words
+set formatoptions+=j                  " When joining commented lines (J), avoid comment characters
 
-" Vim 7.4 only: no // comment when joining commented lines
-if v:version >= 704 | set formatoptions+=j | endif
+" Diffing
+" Note this is += since fillchars was defined in splits
+set fillchars+=diff:⣿
+set diffopt=vertical                  " Use in vertical diff mode
+set diffopt+=filler                   " blank lines to keep sides aligned
+set diffopt+=iwhite                   " Ignore whitespace changes
 
-set nrformats-=octal                  " never use octal when <C-x> or <C-a>
+set autoindent                        " Indent when creating newline
+set copyindent                        " Use same indent for new lines (even if mixed)
+set preserveindent                    " Don't change indent structure with << >>
+set nosmartindent                     " Issues when indenting lines begining with #
+set nocindent                         " Don't default to C-Style indent
 
-" }}} Input Formatting "
-" Whitespace {{{ "
+" double slash means create dir structure to mirror files path
+execute 'set undodir=' . $VIM_TEMP . '/undo//'
+execute 'set backupdir=' . $VIM_TEMP . '/backup//'
+if !has('nvim')
+  execute 'set viminfo+=n' . $VIM_TEMP . '/viminfo'
+endif
 
-set nowrap
-set nojoinspaces                      " J command doesn't add extra space
-
-" }}} Whitespace "
-" Indenting {{{ "
-
-set autoindent                        " indent when creating newline
-
-" for autoindent, use same spaces/tabs mix as previous line, even if
-" tabs/spaces are mixed. Helps for docblock, where the block comments have a
-" space after the indent to align asterisks
-set copyindent
-
-" Try not to change the indent structure on "<<" and ">>" commands. I.e. keep
-" block comments aligned with space if there is a space there.
-set preserveindent
-
-" Smart detect when in braces and parens. Has annoying side effect that it
-" won't indent lines beginning with '#'. Relying on syntax indentexpr instead.
-set nosmartindent
-
-" Global setting. I don't edit C-style code all the time so don't default to
-" C-style indenting.
-set nocindent
-
-" set cinoptions=:0,(s,u0,U1,g0,t0    " Some indentation options ':h cinoptions' for details
-
-" }}}  Indenting "
-" Tabbing {{{ "
-
-
-" real tabs render width. Applicable to HTML, PHP, anything using real tabs.
-" I.e., not applicable to JS.
-set tabstop=2
-
-set expandtab                         " default to spaces instead of tabs
-set shiftwidth=0                      " softtabs are 2 spaces for expandtab
-set softtabstop=-1                    " Negative makes it follow tabstop
-
+" Configure different cursor per mode
+if has('nvim')
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
 
 " use multiple of shiftwidth when shifting indent levels.
 " this is OFF so block comments don't get fudged when using ">>" and "<<"
@@ -426,15 +219,14 @@ set backspace=indent,eol,start        " bs anything
 " Match and Search {{{ "
 
 set matchtime=1                       " tenths of a sec
-set matchpairs+=<:>                 " Adds < and > as matching brackets
+set matchpairs+=<:>                   " Adds < and > as matching brackets
 set showmatch                         " briefly jump to matching paren?
 set hlsearch
 set incsearch
 set wrapscan                          " Searches wrap around end of the file.
 set ignorecase
 set smartcase
-set gdefault                        " Add g as default on replaces
-set magic                           " Enable extended regexes
+set magic                             " Enable extended regexes
 
 " The Silver Searcher
 if executable('ag')
@@ -477,27 +269,22 @@ Plug 'junegunn/vim-plug'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind', 'NERDTree'] }
-Plug 'terryma/vim-multiple-cursors'
 Plug 'benekastah/neomake', { 'on':  'Neomake' }
-Plug 'scrooloose/nerdcommenter'
 
 if executable('editorconfig')
   let g:EditorConfig_core_mode = 'external_command'
+else
+  echo "You should consider installing the editorconfig tool: brew install editorconfig"
 endif
 
 Plug 'editorconfig/editorconfig-vim'
 
-Plug 'tpope/vim-surround'
 Plug 'vim-scripts/matchit.zip'
 
 Plug 'mileszs/ack.vim', { 'on': 'Ack'}
-Plug 'jeetsukumaran/vim-buffergator', { 'on': 'BuffergatorToggle' }
 Plug 'airblade/vim-gitgutter'
-Plug 'alvan/vim-closetag'
-Plug 'jiangmiao/auto-pairs'
 
 " Javascript Functionallity
-Plug '29decibel/vim-stringify', { 'for': 'javascript' }
 Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
 Plug 'othree/yajs.vim', { 'for': 'javascript' }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
@@ -508,14 +295,6 @@ Plug 'bogado/file-line'
 Plug 'dansomething/ftl-vim-syntax'
 Plug 'hail2u/vim-css3-syntax'
 
-" Custom TextObjects
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-entire'
-Plug 'kana/vim-textobj-line'
-" Plug 'beloglazov/vim-textobj-quotes'
-Plug 'lucapette/vim-textobj-underscore'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
 function! DoRemote(arg)
   UpdateRemotePlugins
 endfunction
@@ -524,25 +303,9 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 
-let s:localFile = expand("~/.local/plugins.vim")
-if filereadable(s:localFile)
-  exec 'source '.fnameescape(s:localFile)
-endif
-
 call plug#end()
 
 " }}} Plugins "
-" BufferGator {{{ "
-
-  let g:buffergator_autodismiss_on_select=1
-  let g:buffergator_autoexpand_on_split=0
-  let g:buffergator_autoupdate=1
-  let g:buffergator_suppress_keymaps=1
-
-  "@n <Leader>b > Toggle BufferGator - Visualize Toggles
-  nmap <silent> <Leader>b :BuffergatorToggle<CR>
-
-" }}} BufferGator "
 " CloseTags {{{ "
 
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
@@ -743,10 +506,12 @@ endif
 
 " }}} Deoplete "
 
+
 " It needs to be before the status line and after the plugin to prevent
 " duplication on the load of filetypes.vim
 syntax sync minlines=300
 syntax enable
+
 " This prevents the reload of filetypes.vim
 let s:filetype=execute('filetype')
 if  s:filetype =~ 'detection:OFF' | filetype on        | endif
@@ -777,6 +542,7 @@ function! GetGitStatus()
   return b:git_branch
 
 endfunction
+
 
 " Recalculate the trailing whitespace warning when idle, and after saving
 autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
@@ -979,27 +745,6 @@ augroup END
 
 " Keymaps {{{ "
 
-"@v <Leader>su > Unique Sort
-vnoremap <Leader>su :sort u<CR>
-
-"@v <Leader>su > Unique Sort
-vnoremap <Leader>sU :sort u!<CR>
-
-"@v <Leader>sa > Sort A-Z
-vnoremap <Leader>sa :sort i<CR>
-
-"@v <Leader>sA > Sort A-Z - Case Sensitive
-vnoremap <Leader>sA :sort<CR>
-
-"@v <Leader>sz > Sort Z-A
-vnoremap <Leader>sz :sort! i<CR>
-
-"@v <Leader>sZ > Sort Z-A - Case Sensitive
-vnoremap <Leader>sz :sort!<CR>
-
-"@n <Leader>sr > Search aand Replace
-nnoremap <Leader>sr :%s/
-
 "@n <Leader>sb > Sorts a block alphabetically (CSS/SCSS)
 nnoremap <Leader>sb :norm viB<Space>sa<cr>
 
@@ -1010,41 +755,25 @@ vnoremap \/ <Esc>/\%V
 vnoremap <Leader>sr <Esc>:%s/\%V
 
 "@n <C-L> > Clean last search
-nnoremap <C-L> :nohlsearch<CR>
+nnoremap <C-_> :nohlsearch<CR>
 "@i <C-L> > Clean last search
-inoremap <C-L> <C-O>:nohlsearch<CR>
+inoremap <C-_> <C-O>:nohlsearch<CR>
 
 "@n Y > Make Y consistent with D and C, yanking the rest of the line
 nnoremap Y y$
 
-"@n <C-_> > Save only if modified
-nnoremap <C-_> :update<cr>
-"@i <C-_> > Save only if modified
-inoremap <C-_> <c-o>:update<cr>
-"@v <C-_> > Save only if modified
-vnoremap <C-_> <c-c>:update<cr>v
-
 "@i <C-6> > Esc and change to previous buffer
 inoremap <C-^> <Esc>:b#<cr>
 
-au BufEnter *buffergator-buffers* silent! nunmap ds
-au BufLeave *buffergator-buffers* nmap   ds <Plug>Dsurround
-
-"@ <C-J> > Inserts line above the current one
-map <silent> <C-j> :call InsertNewLine('up')<CR>
-"@ <C-K> > Inserts line below the current one
-map <silent> <C-k> :call InsertNewLine()<CR>
+" Inserts a new line before and after the cursor
+nnoremap <c-j> @="m`o\eg``"<cr>
+nnoremap <c-k> @="m`O\eg``"<cr>
 
 "@n cdw > Remove Trailing Whitespaces
 nnoremap <silent> cdw :call TrimTrailingWhitespace()<CR>
 
-"@n cgf > Go to File that will create the file if it doesn't exist
+"@n cgf > Go to File (will create the file if it doesn't exist)
 nmap cgf :e <cfile><CR>
-
-
-" Stringify
-" Small plugin that turns your raw templates into concatenated
-" strings.
 
 "@n <Leader>g > Converts the line into concatenated strings, 'asdfasdf' + 'asdfasdfa'
 nmap <leader>g :call Stringify()<CR>
@@ -1055,15 +784,11 @@ vmap <leader>g :call Stringify()<CR>
 "@n <C-D> > Generate JSDocs
 nmap <silent> <C-d> <Plug>(jsdoc)
 
-"@ <F1> > Relative Numbers
-map <silent> <F1> :set relativenumber!<CR>
-imap <silent> <F1> <c-o>:set relativenumber!<CR>
-
 "@ <F2> > Paste Toggle
 set pastetoggle=<F2>
 
 "@ <F7> > Move the items in the QuickList to the ToArgs List
-map <F7> :call QuickListToArgs()<CR>
+map <F7> :echo 'Run :cfdo argadd'<CR>
 
 "@n ,p > Paste on next line
 nmap ,p :put<CR>
