@@ -7,8 +7,8 @@ fi
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
-zstyle ':completion:*' menu select=long
 zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' menu select
 zstyle :compinstall filename "$HOME/.zshrc"
 
 autoload -Uz compinit
@@ -19,16 +19,24 @@ autoload -U select-word-style
 select-word-style bash
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install
+
+# History
 HISTFILE=~/.local/tmp/zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=999999999
+SAVEHIST=$HISTSIZE
+
+setopt hist_ignore_all_dups
+setopt hist_ignore_space
+setopt HIST_REDUCE_BLANKS
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY
+
 
 export CLICOLOR=1
 export LSCOLORS=ExFxCxDxBxegedabagacad
 
 unsetopt nomatch
-
-test -e "$HOME/.config/zsh/zsh_keymaps" && source "$HOME/.config/zsh/zsh_keymaps"
 
 export KEYTIMEOUT=1
 bindkey -e
@@ -44,9 +52,9 @@ autoload -U select-word-style
 select-word-style bash
 
 # Enable direnv if it's available
-if hash direnv 2> /dev/null; then
-  eval "$(direnv hook zsh)"
-fi
+# if hash direnv 2> /dev/null; then
+#   eval "$(direnv hook zsh)"
+# fi
 
 export SHELL=$(which zsh)
 
@@ -62,11 +70,10 @@ bindkey    "^[3;5~"         delete-char
 bindkey    "^[[4~"          end-of-line
 bindkey    "^[[5~"          up-line-or-search
 bindkey    "^[[6~"          down-line-or-search
+bindkey    ""             backward-kill-word
 
 # Ctrl-X E / Ctrl-X Ctrl-E to edit command in Vi
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
-
-zstyle ':completion:*' menu select
