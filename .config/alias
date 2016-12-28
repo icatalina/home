@@ -94,7 +94,31 @@ alias z-notify="say 'finished!'"
 
 alias z-remove-dsstore='find -name .DS_Store -type f | xargs -i rm "{}"'
 
-alias z-github-repo="git ls-remote --get-url | sed 's/:/\//' | sed 's/git@/https:\/\//' | xargs open"
+
+function githubURL() {
+  if git rev-parse --git-dir > /dev/null 2>&1; then
+    following=`git status -sb | head -1 | sed 's/.*\.\.\.//'`
+
+    if [[ $following == *"/"* ]]; then
+      branch=${following#*/}
+      repo=${following%/*}
+    else
+      branch='master'
+      repo=''
+    fi
+
+    repoURL=`git ls-remote --get-url ${repo}`;
+    repoURL=${repoURL/:/\/}
+    repoURL=${repoURL#git@*}
+    repoURL=${repoURL%\.git*}
+    repoURL="https://${repoURL}/tree/${branch}"
+    open "${repoURL}"
+  else
+    echo "Not a git repo"
+  fi
+}
+
+alias z-github-repo="githubURL"
 
 # Shortcuts
 alias ll='z-fancy-ls'
