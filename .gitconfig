@@ -108,5 +108,5 @@
   path = ~/.local/gitconfig
 
 [commit]
-  gpgsign = true
+  verbose = true
 
