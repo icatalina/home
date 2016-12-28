@@ -14,6 +14,8 @@
 # Back to suspended job
 alias f='fg'
 
+alias z-copy-one-line-escaped='head -1 | xargs -i printf %q "{}" | tee /dev/tty | pbcopy'
+
 alias z-git='git'
 alias z-git-status='git z-status'
 alias z-git-log='git z-log-20'
@@ -24,6 +26,7 @@ alias z-git-diff='git diff'
 alias z-git-diff-word='git z-diff-word'
 alias z-git-diff-cached='git diff --cached'
 alias z-git-diff-word-cached='git z-diff-word-cached'
+alias z-git-next-file='git diff --name-only | z-copy-one-line-escaped'
 
 alias g='z-git'
 alias gs='z-git-status'
@@ -31,7 +34,9 @@ alias gls='z-git-log'
 alias ga='z-git-add'
 alias gap='z-git-add-patch'
 alias gau='z-git-add-tracked-files'
+alias gn='z-git-next-file'
 alias gd='z-git-diff'
+alias gdn='z-git-diff `git diff --name-only | head -1`'
 alias gdc='z-git-diff-cached'
 alias gdw='z-git-diff-word'
 alias gdwc='z-git-diff-word-cached'
