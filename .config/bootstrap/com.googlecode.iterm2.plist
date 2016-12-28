@@ -737,15 +737,15 @@
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>928 613 700 622 0 0 2560 1440 </string>
 	<key>NSWindow Frame SessionsPreferences</key>
-	<string>269 76 606 456 0 0 2560 1417 </string>
+	<string>181 49 606 456 0 0 1920 1080 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>258 371 796 473 0 0 2560 1417 </string>
+	<string>138 525 918 512 0 0 2560 1417 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>230 833 592 584 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 14 1914 1163 0 0 1920 1177 </string>
+	<string>2 31 1274 1386 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>-1680 210 1676 1015 -1680 198 1680 1027 </string>
+	<string>0 0 650 427 0 0 2560 1440 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>5 1053 570 352 0 0 2560 1417 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
@@ -1539,18 +1539,7 @@
 			<key>Transparency</key>
 			<real>0.0</real>
 			<key>Triggers</key>
-			<array>
-				<dict>
-					<key>action</key>
-					<string>ScriptTrigger</string>
-					<key>parameter</key>
-					<string>growl 'Restarted!' 'Tomcat'</string>
-					<key>partial</key>
-					<false/>
-					<key>regex</key>
-					<string>+ mv /tmp/tomcat_init.sh.pid.new /tmp/tomcat_init.sh.pid</string>
-				</dict>
-			</array>
+			<array/>
 			<key>Unlimited Scrollback</key>
 			<false/>
 			<key>Use Bold Font</key>
@@ -1579,10 +1568,16 @@
 	<true/>
 	<key>NoSyncConfirmBeta</key>
 	<true/>
+	<key>NoSyncHaveWarnedAboutPasteConfirmationChange</key>
+	<true/>
 	<key>NoSyncInstallationId</key>
 	<string>D2DAA22B-14B9-4D74-8256-F7FA17E23966</string>
 	<key>NoSyncLastTipTime</key>
 	<real>489376662.48999202</real>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
+	<true/>
+	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
+	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
@@ -1748,13 +1743,13 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-10-07T06:19:17Z</date>
+	<date>2016-11-24T00:13:58Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<true/>
+	<false/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
@@ -1798,6 +1793,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>3.0.9</string>
+	<string>3.0.12</string>
 </dict>
 </plist>
