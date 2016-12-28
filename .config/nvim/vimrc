@@ -1,168 +1,111 @@
-" vim: fdm=marker foldenable foldlevel=0
+set nocompatible
+
 set termguicolors
+syntax enable
 
-let $VIMHOME=expand("~/.vim")
-let $VIM_TEMP=expand("~/.vim/_tmp")
-let $LOCALFOLDER=expand("~/.local")
-
-if has('vim_starting') | set encoding=utf-8 nobomb | endif
 scriptencoding utf-8
+filetype plugin indent on
 
-" Functions {{{ "
+function! WildIgnore()
+  if exists("g:wildignore")
+    let &wildignore=g:wildignore
+    unlet g:wildignore
+  else
+    let g:wildignore=&wildignore
+    set wildignore=
+  end
 
-function! FileExists(file)
-  return filereadable(glob(a:file))
+  set wildignore?
 endfunction
 
-function! Load(files)
-  for l:file in a:files
-    exec 'so $VIMHOME/config/'.l:file.'.vim'
-  endfor
+function! OpenAllVisuallySelectedFiles()
+  if line(".") == line("'>")
+    execute "edit " . getline(".")
+  else
+    execute "edit " . getline(".") | b#
+  endif
 endfunction
 
-" Remove Trailing WhiteSpaces
-function! TrimTrailingWhitespace()
-    " don't lose user position when trimming trailing whitespace
-    let savedPos = winsaveview()
-    try
-        %s/\s\+$//e
-    finally
-        call winrestview(savedPos)
-    endtry
+function! s:Grep(args, ignore_git, force_case_sensitive)
+  let l:save = &grepprg
+  let l:grep_cmd = 'grep -n'
+  let l:is_git_dir = system("git rev-parse >/dev/null 2>&1; printf $?") == 0
+
+  if l:is_git_dir && !a:ignore_git
+    let l:grep_cmd = 'git ' . l:grep_cmd
+  else
+    let l:grep_cmd = l:grep_cmd . ' -R'
+  endif
+
+  if !a:force_case_sensitive && !(a:args !=# tolower(a:args))
+    let l:grep_cmd = l:grep_cmd . " -i"
+  endif
+
+  execute 'set grepprg=' . escape(l:grep_cmd, ' ')
+  execute 'silent grep! ' . a:args . ' | cwindow | sleep 10m | redraw!'
+
+  let &grepprg = l:save
 endfunction
 
-" Adds the quicklist items to the Argslist
-" :cfdo argadd
-
-" Meassure file size and disable some stuff if too big
-function! LongFiles()
-    let l:long = max(map(getline(1,'$'), 'len(v:val)'))
-    if l:long > 300
-        echo 'File with long lines (' . l:long . 'chars), disabling some stuff...'
-        setlocal noautoindent nocindent nosmartindent indentexpr=
-        setlocal syntax=OFF
-    endif
-endfunction
-
-"jump to last cursor position when opening a file
-"dont do it when writing a commit log entry
-function! SetCursorPosition()
-    if &filetype !~ 'svn\|commit\c'
-        if line("'\"") > 0 && line("'\"") <= line("$")
-            exe "normal! g`\""
-            normal! zz
-        endif
-    else
-        call cursor(1,1)
-    endif
-endfunction
-
-function! CreateIfNotExist(dir)
-    if(!isdirectory(a:dir))
-        execute "silent !mkdir -p \"" . a:dir . "\" >> /dev/null 2>&1"
-    endif
-endfunction
-
-" }}} Functions "
-
-" Create Temporary Directories {{{ "
-
-call CreateIfNotExist($VIM_TEMP . '/backup/')
-call CreateIfNotExist($VIM_TEMP . '/undo/')
-
-" }}} Create Temporary Directories "
-" VimInfo {{{ "
-
-" info file -- nvim uses shada in $XDG_DATA_HOME so that's cool.
-" From https://github.com/swizzard/dotfiles/blob/master/.vimrc
-" Don't keep .viminfo information for files in temporary directories or shared
-" memory filesystems; this is because they're used as scratch spaces for tools
-" like sudoedit(8) and pass(1) and hence could present a security problem
-if !has('nvim') && has('viminfo')
-  augroup iccviminfo
-    autocmd!
-    silent! autocmd vimrc BufNewFile,BufReadPre
-        \ /tmp/*,$TMPDIR/*,$TMP/*,$TEMP/*,*/shm/*
-        \ setlocal viminfo=
-  augroup END
-endif
-
-" }}} VimInfo "
-
-let mapleader = " "
+let g:loaded_getscriptPlugin = 1
+let g:loaded_gzip = 1
+let g:loaded_logiPat = 1
+let g:loaded_matchit = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_rrhelper = 1
+let g:loaded_tarPlugin = 1
+let g:loaded_vimballPlugin = 1
+let g:loaded_zipPlugin = 1
 
 set autoread                          " Automatically read files that have been changed on disk
-set backup                            " Enable backups
-set backupskip=/tmp/*                 " Skip backups for this folder
-set browsedir=buffer                  " browse files in same dir as open file
-set cmdheight=2                       " Cmd area height
-set colorcolumn=80                    " Mark the 80th column
-set complete-=i                       " don't complete includes
-set complete-=t                       " don't complete tags
-set completeopt+=menu,menuone         " show PUM, even for one thing
-set completeopt-=preview              " don't open scratch preview
+au CursorHold * checktime             " Needed for the set autoread
+
+set showmatch                         " briefly jump to matching paren?
+set shortmess+=TFat
 set cursorline                        " Enable cursor line
 set fileformat=unix                   " Prefered format
 set fileformats=unix,dos,mac          " Preference list for file formats
-set fillchars=vert:│                  " Vertical sep for splits (unicode bar)
-set foldcolumn=1                      " Show a column with this width showing the folds
-set foldlevel=99                      " show all folds by default
-set foldlevelstart=99                 " show all folds by default
 set hidden                            " Enable multiple modified buffers
 set laststatus=2                      " Shows the status bar all the time
 set lazyredraw                        " macros don't update display
 set modeline                          " Enable modelines (comments on first line)
 set mouse=a                           " Enable Mouse
-set nojoinspaces                      " J command doesn't add extra space
-set noshowcmd                         " show incomplete commands (SLOW so off)
-set noshowmode                        " don't show -- INSERT -- in cmdline
 set nostartofline                     " Don't reset cursor to start of line when moving around
 set noswapfile                        " Don't create a swap file (useless)
-set notimeout                         " No timeouts
-set nottimeout                        " No timeouts
+set ttimeoutlen=0
 set nowrap                            " Don't wrap lines
-set nrformats-=octal                  " never use octal when <C-x> or <C-a>
-set number                            " Makes the current line to show the linenumber instead of 0
-set numberwidth=4                     " Size of the numbers column
 set scrolloff=8                       " Minium number of lines above and below the cursor
 set sidescrolloff=16                  " Minium number of characters left and right of the cursor
-set splitbelow                        " Open new splits below
-set splitright                        " Open new Split to the right
-set switchbuf=useopen                 " Reuse opened buffers when using the quickfix
-set synmaxcol=400                     " Don't syntax highlight long lines
-set title                             " wintitle = filename - vim
+set hlsearch
+set backspace=indent,eol,start        " bs anything
+set scroll=10
+
 set undofile                          " Use an undo file
-set undolevels=1000                   " Number of undolevels
-set undoreload=10000                  " Save the whole buffer for undo when reloading it
-set updatetime=200                    " Time in ms to consider vim 'idle'
-set visualbell t_vb=                  " no beeps or flashes
+set undodir=~/.vim/undo
+
 set wildignorecase                    " When set case is ignored when completing file names and directories.
 set wildmenu                          " Enhanced command line completion.
-set wildmode=list:longest,full        " Complete files using a menu AND list
+set wildmode=list:full                " Complete files using a menu AND list
+
+set wildignore+=node_modules/**,build/**,bower_components/**,dist/**,.git/**
+
+set suffixesadd+=.js
+set path+=$PWD/node_modules
+
 set expandtab                         " default to spaces instead of tabs
 set tabstop=2                         " Set tab size
 set shiftwidth=0                      " softtabs are 2 spaces for expandtab
 set softtabstop=-1                    " Negative makes it follow tabstop
 
-" Invisible characters
-set list
-set listchars=
-set listchars+=tab:→\                 " Don't remove comment, keeping trailing whitespace
-set listchars+=trail:·
-set listchars+=extends:»              " show cut off when nowrap
-set listchars+=precedes:«
-set listchars+=nbsp:⣿
+set iskeyword+=-,$,*
+set ignorecase
+set smartcase
+set smarttab
 
-set wildignore+=.git,.hg,.svn
-set wildignore+=*/vendor/gems/*,*/vendor/cache/*,*/.bundle/*,*/.sass-cache/*,*.gem
-set wildignore+=*.aux,*.out,*.toc
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest,*.rbc,*.class
-set wildignore+=*.ai,*.bmp,*.gif,*.ico,*.jpg,*.jpeg,*.png,*.psd,*.webp
-set wildignore+=*.avi,*.m4a,*.mp3,*.oga,*.ogg,*.wav,*.webm
-set wildignore+=*.eot,*.otf,*.ttf,*.woff
-set wildignore+=*.doc,*.pdf
-set wildignore+=*.zip,*.tar.gz,*.tar.bz2,*.rar,*.tar.xz
-set wildignore+=*.swp,.lock,.DS_Store,._*
+set statusline=%f%q%m%r%=[%l/%L][%3c]%y
+
+set list
+set listchars=tab:→\ ,trail:·,extends:»,precedes:«,nbsp:⣿
 
 set formatoptions=
 set formatoptions+=c                  " Auto-wrap comments using textwidth
@@ -176,27 +119,6 @@ set formatoptions-=l                  " break lines that are already long?
 set formatoptions+=1                  " Break before 1-letter words
 set formatoptions+=j                  " When joining commented lines (J), avoid comment characters
 
-" Diffing
-" Note this is += since fillchars was defined in splits
-set fillchars+=diff:⣿
-set diffopt=vertical                  " Use in vertical diff mode
-set diffopt+=filler                   " blank lines to keep sides aligned
-set diffopt+=iwhite                   " Ignore whitespace changes
-
-set autoindent                        " Indent when creating newline
-set copyindent                        " Use same indent for new lines (even if mixed)
-set preserveindent                    " Don't change indent structure with << >>
-set nosmartindent                     " Issues when indenting lines begining with #
-set nocindent                         " Don't default to C-Style indent
-
-" double slash means create dir structure to mirror files path
-execute 'set undodir=' . $VIM_TEMP . '/undo//'
-execute 'set backupdir=' . $VIM_TEMP . '/backup//'
-if !has('nvim')
-  execute 'set viminfo+=n' . $VIM_TEMP . '/viminfo'
-endif
-
-" Configure different cursor per mode
 if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -205,684 +127,79 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
-" use multiple of shiftwidth when shifting indent levels.
-" this is OFF so block comments don't get fudged when using ">>" and "<<"
-set noshiftround
+nnoremap ; :
+nnoremap * *N
+nnoremap Y y$
 
-" When on, a <Tab> in front of a line inserts blanks according to
-" 'shiftwidth'. 'tabstop' or 'softtabstop' is used in other places.
-set smarttab
+nnoremap <silent> <BS> :noh<cr>
+nnoremap <silent> <C-H> :noh<cr>
 
-set backspace=indent,eol,start        " bs anything
+nnoremap cgf :e <cfile><CR>
 
-" }}} Tabbing "
-" Match and Search {{{ "
+nnoremap <C-B> :ls<cr>:b
 
-set matchtime=1                       " tenths of a sec
-set matchpairs+=<:>                   " Adds < and > as matching brackets
-set showmatch                         " briefly jump to matching paren?
-set hlsearch
-set incsearch
-set wrapscan                          " Searches wrap around end of the file.
-set ignorecase
-set smartcase
-set magic                             " Enable extended regexes
+nnoremap <silent> <C-N> :bn<CR>
+nnoremap <silent> <C-P> :bp<CR>
+nnoremap <silent> <C-C> :bp<CR>:bd#<CR>
+nnoremap <C-X><C-C> :bd!#\|echo 'Force Closed! '.expand('#')<CR>
 
-" The Silver Searcher
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-endif
+nnoremap <C-S> :%s//
+xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
 
-" }}} Match and Search "
-" Special Highlight {{{ "
+nnoremap - o<Esc>"*p
+xnoremap - "*p
 
-" Highlight VCS conflict markers
-" @see {@link https://bitbucket.org/sjl/dotfiles/src/83aac563abc9d0116894ac61db2c63c9a05f72be/vim/vimrc?at=default&fileviewer=file-view-default#vimrc-233}
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
-" }}} Special Highlight "
-" Disable Distributed Plugins {{{ "
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+nnoremap <silent> <F2> :call WildIgnore()<CR>
 
-let g:loaded_2html_plugin = 1
-let g:loaded_getscriptPlugin = 1
-let g:loaded_gzip = 1
-let g:loaded_LogiPat = 1
-let g:loaded_tarPlugin = 1
-let g:loaded_zipPlugin = 1
-" used to download spellfile and enable gx mapping
-" let g:loaded_netrwPlugin = 0
+nnoremap s :let @*=@"<cr>:echo 'Stamped'<cr>
+nnoremap <C-G> :Gls 
 
-" }}} Disable Distributed Plugins "
-" Settings {{{ "
+inoremap <c-x><right> <c-x><c-l>
+cnoremap <c-x> <c-r>=getline('.')<CR>
 
+let g:html_indent_tags = 'li\|p'
 
+" Colors
 set background=dark                     " Sets a dark background
 let base16colorspace=256
 colorscheme base16-default-dark
 
-" }}} Settings "
-" Plugins {{{ "
+"set wildcharm=<c-z>
+"cnoremap ss %s/
 
-call plug#begin()
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
+au BufReadPost * if !&diff && &filetype != 'gitcommit' && line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g`\"zz" | endif
 
-Plug 'junegunn/vim-plug'
+au FileType gitcommit setlocal colorcolumn=51,73
+au FileType gitcommit setlocal spell
+au FileType gitcommit setlocal nocursorline
 
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'scrooloose/nerdtree', { 'on':  ['NERDTreeToggle', 'NERDTreeFind', 'NERDTree'] }
-Plug 'benekastah/neomake', { 'on':  'Neomake' }
+" Show cursor line only in active buffer
+"augroup CursorLine
+"  au!
+"  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"  au WinLeave * setlocal nocursorline
+"augroup END
 
-if executable('editorconfig')
-  let g:EditorConfig_core_mode = 'external_command'
-else
-  echo "You should consider installing the editorconfig tool: brew install editorconfig"
-endif
+command! -nargs=* -bang -complete=dir Gls new|only|nnoremap <buffer> <C-C> :bw<cr>|set buftype=nofile|.!git ls-files <q-args>
+command! -nargs=* -bang -complete=dir Gst new|only|nnoremap <buffer> <C-C> :bw<cr>|set buftype=nofile|.!git status -s <q-args>
+command! Vimrc e ~/.vim/vimrc
 
-Plug 'editorconfig/editorconfig-vim'
+xnoremap gf :call OpenAllVisuallySelectedFiles()<cr>:echo<cr>
 
-Plug 'vim-scripts/matchit.zip'
+command! -nargs=+ -bang -complete=dir Grep call s:Grep(<q-args>, <bang>0, 0)
+command! -nargs=+ -bang -complete=dir WildIgnore call s:WildIgnore(<q-args>, <bang>0, 0)
 
-Plug 'mileszs/ack.vim', { 'on': 'Ack'}
-Plug 'airblade/vim-gitgutter'
+set conceallevel=1
+set concealcursor=nvic
+hi Conceal guifg=#ff0000
 
-" Javascript Functionallity
-Plug 'heavenshell/vim-jsdoc', { 'for': 'javascript' }
-Plug 'othree/yajs.vim', { 'for': 'javascript' }
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
-
-Plug 'sheerun/vim-polyglot'
-Plug 'bogado/file-line'
-
-Plug 'dansomething/ftl-vim-syntax'
-Plug 'hail2u/vim-css3-syntax'
-
-function! DoRemote(arg)
-  UpdateRemotePlugins
-endfunction
-
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
-
-call plug#end()
-
-" }}} Plugins "
-" CloseTags {{{ "
-
-let g:closetag_filenames = "*.html,*.xhtml,*.phtml"
-
-" }}} CloseTags "
-" CtrlP {{{ "
-
-"" CtrlP excluded folder
-let g:ctrlp_custom_ignore = {
- \ 'dir':  '\v[\/]((.(git|hg|svn|sass-cache))|node_modules|target|min|tmpcss|reports)$',
- \ 'file': '\v\.(exe|so|dll|bmp|png|tiff|processed\.scss|css\.js|map)$',
- \ 'link': 'some_bad_symbolic_links',
- \ }
-
-"Make CtrlP Use the CWD
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_mruf_relative = 1
-let g:ctrlp_cmd = 'CtrlPMRUFiles'
-
-let g:ctrlp_map = ''
-let g:ctrlp_prompt_mappings = {
-    \ 'PrtHistory(-1)':       ['<c-n>'],
-    \ 'PrtHistory(1)':        [],
-    \ 'ToggleType(1)':        ['<c-f>', '<c-p>', '<c-u>'],
-    \ }
-
-" MAPPINGS
-
-"@n <Leader>pp > CtrlP - Fuzzy search Files
-nnoremap <silent> <Leader>pp :CtrlP<CR>
-"@n <Leader>pb > CtrlP - Fuzzy search Buffers
-nnoremap <silent> <Leader>pb :CtrlPBuffer<CR>
-"@n <Leader>pm > CtrlP - Fuzzy search Most Recent Files
-"@n <C-P> > CtrlP - Fuzzy search Most Recent Files
-nnoremap <silent> <Leader>pm :CtrlPMRU<CR>
-nnoremap <silent> <expr> <C-P> (expand('%') =~ 'NERD_tree' ? "\<c-w>\<c-w>" : '').":CtrlPMRUFiles\<cr>"
-
-" For Reference Only
-"@ctrlp <F5> > Purge the cache for the current directory to get new files, remove deleted files and apply new ignore options.
-"@ctrlp <F7> > Purge the MRU List
-"@ctrlp <C-F> > Cycle between modes [file, mru, buffer].
-"@ctrlp <C-B> > Cycle between modes [file, mru, buffer] backwards.
-"@ctrlp <C-P> > Cycle between modes [file, mru, buffer].
-"@ctrlp <C-D> > to switch to filename only search instead of full path.
-"@ctrlp <C-R> > to switch to regexp mode.
-"@ctrlp <C-J> > Or Arrow Key to navigate Up the list
-"@ctrlp <C-K> > Or Arrow Key to navigate Down the list
-"@ctrlp <C-T> > To open in a new Tab
-"@ctrlp <C-V> > To open in a new Vertical Split
-"@ctrlp <C-X> > To open in a new Horizontal Split
-"@ctrlp <C-N> > To select next string from prompt
-"@ctrlp <C-P> > To select previous string from prompt
-"@ctrlp <C-Y> > To create a new file and its parent directories.
-"@ctrlp <C-Z> > To mark/unmark multiple files
-"@ctrlp <C-O> > To open serveral files marked with <C-Z>
-
-
-" }}} CtrlP "
-" Delimitmate {{{ "
-
-if exists("g:plugs['delimitMate']")
-  let delimitMate_expand_cr=1
-  let delimitMate_expand_space=1
-endif
-
-" }}} Delimitmate "
-" GitGutter {{{ "
-
-if exists("g:plugs['vim-gitgutter']")
-  let g:gitgutter_enabled = 1
-  let g:gitgutter_max_signs = 500  " default value
-endif
-
-" }}} GitGutter "
-" Nerd* {{{ "
-
-" NERDCommenter
-let g:nerdcreatedefaultmappings = 0
-let g:nerdspacedelims = 1
-
-let g:NERDCustomDelimiters = {
-      \ 'javascript' : { 'left': '// ', 'leftAlt': '/*', 'rightAlt': '*/' },
-      \ 'javascript.jquery': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' }
-    \ }
-
-"@n \c > Toggle Line Comment NERDCommenter
-nmap \c <Plug>NERDCommenterToggle
-"@v \c > Toggle Line Comment in selected lines NERDCommenter
-vmap \c <Plug>NERDCommenterToggle
-
-"@ <F9> > Toggle Line Comment in any any NERDCommenter
-map <F9> :normal \c<CR>
-inoremap <F9> <c-o>:normal \c<CR>
-
-
-" NERDTree
-let g:NERDTreeBookmarksFile=expand("~/.local/tmp/nerdtree.bookmarks")
-let g:NERDTreeIgnore=['\.DS_Store$', '\.pyc', '__pycache__', '__init__.py']
-let g:nerdtree_tabs_open_on_gui_startup=0
-let g:NERDTreeMouseMode=1
-let g:NERDTreeWinSize=30
-let g:NERDTreeMinimalUI=1
-
-"@n <Leader>n > Toggle NERDTree
-nnoremap <Leader>n :NERDTreeToggle<cr>
-" Find in Nerd Tree
-"@n <Leader>N > Find current file in NERDTree
-nmap <leader>N :NERDTreeFind<CR>
-
-au BufLeave *NERD_tree_* silent! nunmap <Leader><Enter>
-au BufEnter *NERD_tree_* nmap   <Leader><Enter> :norm cdCD<CR>
-
-" }}} Nerd* "
-" SilverSearcher - AG {{{ "
-
-" The Silver Searcher
-if executable('ag')
-  " Use ag over grep
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-""  let g:ctrlp_use_caching = 0
-endif
-
-command! -nargs=+ -complete=file -bar Ags silent! grep! <args>|cwindow|redraw!
-
-" nnoremap K :!grep "\b<C-R><C-W>\b"<CR>:cw<CR>
-
-"@n \\ > Trigger AG search
-nnoremap \\ :Ack!<SPACE>
-nnoremap <Leader>\ "zyiw:Ack! <C-R>=fnameescape(@z)<CR>
-
-"@v \\ > Trigger AG Search for the selected word
-vnoremap \\ "zy:Ack! <C-r>=fnameescape(@z)<CR>
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep --smart-case'
-endif
-
-cnoreabbrev ag Ack!
-cnoreabbrev aG Ack!
-cnoreabbrev Ag Ack!
-cnoreabbrev AG Ack!
-" }}} SilverSearcher - AG "
-" UltiSnips {{{ "
-
-if exists("g:plugs['ultisnips']")
-  let g:UltiSnipsExpandTrigger="<Tab>"
-  let g:UltiSnipsJumpForwardTrigger="<Tab>"
-  let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-  let g:UltiSnipsEditSplit="vertical"
-  let g:UltiSnipsSnippetsDir=$HOME.'/.local/UltiSnips'
-  " Avoid snipmate snippets in UltiSnips
-  let g:UltiSnipsEnableSnipMate=0
-endif
-
-" }}} UltiSnips "
-" YouCompleteMe - Disabled {{{ "
-
-if exists("g:plugs['youcompleteme']")
-  let g:ycm_complete_in_comments = 1
-  let g:ycm_collect_identifiers_from_comments_and_strings = 1
-  let g:pymode_rope_complete_on_dot = 0
-  let g:ycm_min_num_of_chars_for_completion = 2
-  let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-  let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
-endif
-
-" }}} YouCompleteMe - Disabled "
-" Neomake {{{ "
-
-if exists("g:plugs['neomake']")
-  if has('nvim')
-    autocmd! BufWritePost * Neomake
-  else
-    autocmd! BufReadPost,BufWritePost * Neomake
-  endif
-endif
-
-" }}} Neomake "
-" Javascript Syntax Libraries {{{ "
-
-if exists("g:plugs['javascript-libraries-syntax.vim']")
-  " Enable some Javascript Libraries
-  let g:used_javascript_libs = 'underscore,angularjs,jquery'
-endif
-
-" }}} Javascript Syntax Libraries "
-" Deoplete {{{ "
-
-if exists("g:plugs['deoplete.nvim']")
-  " Start Deoplete
-  let g:deoplete#enable_at_startup = 1
-endif
-
-" }}} Deoplete "
-
-
-" It needs to be before the status line and after the plugin to prevent
-" duplication on the load of filetypes.vim
-syntax sync minlines=300
-syntax enable
-
-" This prevents the reload of filetypes.vim
-let s:filetype=execute('filetype')
-if  s:filetype =~ 'detection:OFF' | filetype on        | endif
-if  s:filetype =~ 'plugin:OFF'    | filetype plugin on | endif
-if  s:filetype =~ 'indent:OFF'    | filetype indent on | endif
-
-" StatusLine - Helpers {{{ "
-
-autocmd cursorHold,bufWritePost,bufEnter * unlet! b:git_branch
-function! GetGitStatus()
-  if !exists("b:git_branch")
-
-    if expand('%:p') != ''
-      let l:branch='git -C '.expand('%:p:h').' status -sb -- ' . expand('%:p') . ' 2> /dev/null | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g" | sed "s/\(^##\ \|^\s\|\.\{3\}.*\)//g"'
-      let l:branchArray=split(substitute(system(l:branch), '\n', ' ', 'g'), ' ')
-      if (len(l:branchArray) > 1)
-        let l:branchArray=l:branchArray[:1]
-        let l:branchArray[1]=tolower(l:branchArray[1])
-      endif
-      let b:git_branch=join(l:branchArray, '|')
-    else
-      let b:git_branch=''
-
-    endif
-
-  endif
-
-  return b:git_branch
-
-endfunction
-
-
-" Recalculate the trailing whitespace warning when idle, and after saving
-autocmd cursorhold,bufwritepost * unlet! b:statusline_trailing_space_warning
-function! StatuslineTrailingSpaceWarning()
-    if !exists("b:statusline_trailing_space_warning")
-
-        if !&modifiable
-            let b:statusline_trailing_space_warning = ''
-            return b:statusline_trailing_space_warning
-        endif
-
-        if search('\s\+$', 'nw') != 0
-            let b:statusline_trailing_space_warning = ',sp'
-        else
-            let b:statusline_trailing_space_warning = ''
-        endif
-    endif
-    return b:statusline_trailing_space_warning
-endfunction
-
-" Return '[&et]' if &et is set wrong
-" Return '[mixed-indenting]' if spaces and tabs are used to indent
-" Return an empty string if everything is fine
-autocmd cursorhold,bufwritepost * unlet! b:statusline_tab_warning
-function! StatuslineTabWarning()
-    if !exists("b:statusline_tab_warning")
-        let b:statusline_tab_warning = ''
-
-        if !&modifiable
-            return b:statusline_tab_warning
-        endif
-
-        let tabs = search('^\t', 'nw') != 0
-
-        "find spaces that arent used as alignment in the first indent column
-        let spaces = search('^ \{' . &ts . ',}[^\t]', 'nw') != 0
-
-        if tabs && spaces
-          let b:statusline_tab_warning =  ',mi'
-        elseif (spaces && !&et)
-          let b:statusline_tab_warning = ',!ett'
-        elseif (tabs && &et)
-          let b:statusline_tab_warning = ',et'
-        endif
-    endif
-    return b:statusline_tab_warning
-endfunction
-
-"Recalculate the long line warning when idle and after saving
-
-"Return a warning for "long lines" where "long" is either &textwidth or 80 (if
-"no &textwidth is set)
-"return '' if no long lines
-"return '[#x,my,$z] if long lines are found, were x is the number of long
-"lines, y is the median length of the long lines and z is the length of the
-"longest line
-autocmd cursorhold,bufwritepost * unlet! b:statusline_long_line_warning
-function! StatuslineLongLineWarning()
-    if !exists("b:statusline_long_line_warning")
-
-        if !&modifiable
-            let b:statusline_long_line_warning = ''
-            return b:statusline_long_line_warning
-        endif
-
-        let l:long_line_lens = map(range(1, line('$')), "virtcol([v:val, '$'])")
-        let l:maxline = max(l:long_line_lens)
-        let l:threshold = (&tw ? &tw : 80)
-
-        if l:maxline > l:threshold
-            let l:results = FindItemsBiggerThan(l:long_line_lens, l:threshold)
-            "let l:longest_line = index(long_line_lens, l:maxline) + 1
-            let b:statusline_long_line_warning =  ",L:" . l:results[1].'›' . l:results[0]
-        else
-            let b:statusline_long_line_warning = ""
-        endif
-    endif
-    return b:statusline_long_line_warning
-endfunction
-
-function! FindItemsBiggerThan(numberlist, min)
-  let l:i = 0
-  let l:number_of_lines_longer_than_min = 0
-
-  for l:line in a:numberlist
-
-    let l:i = l:i + 1
-
-    if l:line > a:min
-      if !exists('l:first_line')
-        let l:first_line = l:i
-      endif
-      let l:number_of_lines_longer_than_min = l:number_of_lines_longer_than_min + 1
-    endif
-
-  endfor
-
-  return [l:first_line, l:number_of_lines_longer_than_min]
-
-endfunction
-
-autocmd cursorhold,bufwritepost * unlet! b:neomake_error_count
-function! NeoMakeErrorCount()
-    if !exists("b:neomake_error_count")
-
-      if exists("*neomake#statusline#LoclistStatus")
-        let b:neomake_error_count=neomake#statusline#LoclistStatus()
-
-        if b:neomake_error_count != ''
-          let l:first_error=getloclist(winnr())[0]
-          let b:neomake_error_count=','.b:neomake_error_count.'›'.l:first_error.lnum.':'.l:first_error.col
-        endif
-
-      else
-        let b:neomake_error_count=''
-      endif
-
-    endif
-    return b:neomake_error_count
-endfunction
-
-function! SyntaxItem()
-  if exists("g:show_highlight_group")
-    return synIDattr(synID(line("."),col("."),1),"name")
-  else
-    return ''
-  endif
-endfunction
-
-" }}} StatusLine - Helpers "
-" StatusLine {{{ "
-
-function! s:HL(key, fg, bg)
-  execute 'highlight! ' a:key ' cterm=none gui=none guifg=' a:fg ' guibg=' a:bg
-endfunction
-
-highlight! clear StatusLine
-highlight! StatusLine NONE
-highlight! clear StatusLineNC
-highlight! StatusLineNC NONE
-
-call s:HL('SLMain',     '#000000', '#7cafc2')
-call s:HL('SLMiddle',   '#959590', '#333333')
-call s:HL('SLError',    '#ff2222', '#282828')
-call s:HL('SLModified', '#EFC72B', '#584E4C')
-call s:HL('SLPaste',    '#000000', '#efc72b')
-call s:HL('SLModified', '#ffffff', '#7cafc2')
-
-call s:HL('User1',        '#959590', '#333333')
-call s:HL('User2',        '#959590', '#333333')
-call s:HL('User3',        '#959590', '#333333')
-call s:HL('User4',        '#000000', '#7C6515')
-
-highlight! link StatusLine    SLMain
-highlight! link StatusLineNC  SLMiddle
-highlight! link User1         SLMiddle
-highlight! link User2         SLError
-highlight! link User3         SLModified
-highlight! link User4         SLPaste
-
-""" Statusline setup
-" Cleans previous status line
-set statusline=
-" Shows the Syntax Highlight if g:show_highlight_group is enabled
-set statusline+=%1*%(\ %{SyntaxItem()}\ %)
-" Paste MODE On/Off
-set statusline+=%4*%(\ %{&paste?'PASTE':''}\ %)
-" Modified/ReadOnly
-set statusline+=%2*%(%m%r%)
-" FileName
-set statusline+=%1*%(%f%)
-" Git Status
-set statusline+=%(\ «%0.30{GetGitStatus()}»%)
-" Left/right separator
-set statusline+=%=
-" Display an error if fileformat is not UNIX
-set statusline+=%2*
-set statusline+=%([%R%H%{&ff!='unix'?','.&ff:''}%{(&fenc!='utf-8'&&&fenc!='')?','.&fenc:''}]%)
-set statusline+=%([%{NeoMakeErrorCount()}%{StatuslineLongLineWarning()}%{StatuslineTabWarning()}%{StatuslineTrailingSpaceWarning()}]%)
-
-set statusline+=%*
-set statusline+=%([%v%),%(%p%%]%)  " Cursor column
-set statusline+=%y"filetype
-
-if has('title')
-  set titlestring=%t%(\ [%R%M]%)
-endif
-
-" Shows the mode on the bottom of the screen
-set showmode
-
-" Show cursor line only on the active buffer
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
-
-" }}} StatusLine "
-
-" Keymaps {{{ "
-
-"@n <Leader>sb > Sorts a block alphabetically (CSS/SCSS)
-nnoremap <Leader>sb :norm viB<Space>sa<cr>
-
-"@v \/ > Search in Visual Selection
-vnoremap \/ <Esc>/\%V
-
-"@v <Leader>sr > Search aand Replace in Visual Selection
-vnoremap <Leader>sr <Esc>:%s/\%V
-
-"@n <C-L> > Clean last search
-nnoremap <C-_> :nohlsearch<CR>
-"@i <C-L> > Clean last search
-inoremap <C-_> <C-O>:nohlsearch<CR>
-
-"@n Y > Make Y consistent with D and C, yanking the rest of the line
-nnoremap Y y$
-
-"@i <C-6> > Esc and change to previous buffer
-inoremap <C-^> <Esc>:b#<cr>
-
-" Inserts a new line before and after the cursor
-nnoremap <c-j> @="m`o\eg``"<cr>
-nnoremap <c-k> @="m`O\eg``"<cr>
-
-"@n cdw > Remove Trailing Whitespaces
-nnoremap <silent> cdw :call TrimTrailingWhitespace()<CR>
-
-"@n cgf > Go to File (will create the file if it doesn't exist)
-nmap cgf :e <cfile><CR>
-
-"@n <Leader>g > Converts the line into concatenated strings, 'asdfasdf' + 'asdfasdfa'
-nmap <leader>g :call Stringify()<CR>
-
-"@v <Leader>g > Converts the Selection into concatenated strings, 'asdfasdf' + 'asdfasdfa'
-vmap <leader>g :call Stringify()<CR>
-
-"@n <C-D> > Generate JSDocs
-nmap <silent> <C-d> <Plug>(jsdoc)
-
-"@ <F2> > Paste Toggle
-set pastetoggle=<F2>
-
-"@ <F7> > Move the items in the QuickList to the ToArgs List
-map <F7> :echo 'Run :cfdo argadd'<CR>
-
-"@n ,p > Paste on next line
-nmap ,p :put<CR>
-
-"@n ,P > Paste on next line
-nmap ,P :put!<CR>
-
-"@n <Leader>, > Moves to the previous item in the location list
-nmap <Leader>, :lprev<cr>
-"@n <Leader>. > Moves to the next item in the location list
-nmap <Leader>. :lnext<cr>
-
-"@n <Leader>f > Prints the current file path and copies it to the clipboard
-nmap <Leader>F :echo @%\|silent !printf % \| pbcopy<Esc>
-"@n <Leader>f > Prints the current file path
-nmap <Leader>f :echo @%<Esc>
-
-" Command navigation
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
-cnoremap <C-g> <CR>/<C-P>
-
-"" Uppercase Commands
-if has("user_commands")
-    command! -bang -nargs=? -complete=file E e<bang> <args>
-    command! -bang -nargs=? -complete=file W w<bang> <args>
-    command! -bang -nargs=? -complete=file Wq wq<bang> <args>
-    command! -bang -nargs=? -complete=file WQ wq<bang> <args>
-    command! -bang Wa wa<bang>
-    command! -bang WA wa<bang>
-    command! -bang Q q<bang>
-    command! -bang QA qa<bang>
-    command! -bang Qa qa<bang>
-endif
-
-" }}} Keymaps "
-" Custom File Types {{{ "
-
-" Make Jasmine files load the right syntax highlight and snippets
-autocmd BufNewFile,BufReadPre *Spec.js,*_spec.js,*.spec.js let b:javascript_lib_use_jasmine = 1
-autocmd BufNewFile,BufReadPost *Spec.js,*_spec.js,*.spec.js set ft=jasmine.javascript
-
-" Backend using node and excluding jquery
-autocmd BufNewFile,BufReadPre */app/backend/*.js let b:javascript_lib_use_jquery = 0 | let b:javascript_lib_use_angular = 0
-autocmd BufNewFile,BufReadPost */app/backend/*.js set ft=node.javascript
-
-" Frontend using angular and jquery
-autocmd BufNewFile,BufReadPre */app/**/*.js let b:javascript_lib_use_jquery = 1 | let b:javascript_lib_use_angular = 1
-autocmd BufNewFile,BufReadPost */app/**/*.js set ft=angular.javascript
-
-" }}} Custom File Types "
-" Highlight options {{{ "
-
-highlight! Visual cterm=NONE ctermbg=238 ctermfg=NONE guibg=#202E39 guifg=NONE gui=NONE
-highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
-highlight! vimHiAttribList guifg=red guibg=#333333 gui=reverse
-highlight! vimHiKeyError guifg=red guibg=#333333 gui=reverse
-highlight! Error guifg=red guibg=#333333 gui=reverse
-highlight! IncSearch cterm=NONE guibg=#dc9656 guifg=#282828 ctermfg=white ctermbg=darkyellow gui=NONE
-
-" }}} Highlight options "
-" Autocommands {{{ "
-
-autocmd! BufReadPost * call SetCursorPosition()
-autocmd! BufEnter * :let g:bufNum=bufnr('%')
-autocmd! Filetype gitcommit setlocal spell textwidth=72
-
-" Window aucmds -- affect layout
-augroup dkowindow
-  autocmd!
-
-  autocmd VimResized
-        \ *
-        \ wincmd =
-augroup END
-
-" }}} Autocommands "
-
-" Enabling .local/init.vim for local configurations
-if FileExists($LOCALFOLDER . '/vimrc')
-  exec 'so $LOCALFOLDER/vimrc'
-endif
-
-if !exists('g:snips_dismiss') && (!exists('g:snips_author') || !exists('g:snips_email'))
-  echo 'Add your g:snips_author and g:snips_email in your ~/.local/vimr for UltiSnips to use them, otherwise set g:snips_dismiss = 1 in your .vimrc'
-endif
-
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
-
-" Disallow unsafe local vimrc commands
-" Leave down here since it trims local settings
 set secure
+
+
+
