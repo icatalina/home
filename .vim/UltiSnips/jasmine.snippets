@@ -2,7 +2,7 @@ extends javascript-jasmine
 priority 1
 
 snippet des "describe" b
-describe('${1:description}', function() {
+describe('${1:description}', () => {
 	${0:${VISUAL}}
 });
 endsnippet
@@ -20,7 +20,7 @@ beforeEach(($2) => ${3:{
 endsnippet
 
 snippet befa "beforeAll" b
-beforeAll(${1:function() {
+beforeAll(${1:() => {
 	${0:${VISUAL}}
 }});
 endsnippet
