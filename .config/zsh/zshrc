@@ -41,15 +41,11 @@ unsetopt nomatch
 export KEYTIMEOUT=1
 bindkey -e
 
-PROMPT='%(?.%F{magenta}.%F{red})${${KEYMAP/vicmd/❮%f}/(main|viins)/❯%f} '
 function zle-line-init zle-keymap-select {
   zle reset-prompt
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
-
-autoload -U select-word-style
-select-word-style bash
 
 # Enable direnv if it's available
 # if hash direnv 2> /dev/null; then
@@ -65,20 +61,24 @@ prompt pure
 
 # Mac Keyboard - I hope it will work for most keyboards
 bindkey    "^[[1~"          beginning-of-line
-bindkey    "^[[3~"          delete-char
+bindkey    "^[[3~"          backward-kill-word
 bindkey    "^[3;5~"         delete-char
 bindkey    "^[[4~"          end-of-line
 bindkey    "^[[5~"          up-line-or-search
 bindkey    "^[[6~"          down-line-or-search
-bindkey    ""             backward-kill-word
 
 # Ctrl-X E / Ctrl-X Ctrl-E to edit command in Vi
 autoload -U edit-command-line
 zle -N edit-command-line
-bindkey '^xe' edit-command-line
+bindkey '^xe'  edit-command-line
 bindkey '^x^e' edit-command-line
 
 # stop control flow, gimme ctrl-s back
-bindkey -r '\C-s'
 stty -ixon
-setopt noflowcontrol
+
+jobscount() {
+  local jobs=$(jobs | grep ^\\\[ | wc -l)
+  ((jobs)) && echo -n "${jobs} "
+}
+
+PROMPT='$(jobscount)%(?.%F{magenta}.%F{red})${${KEYMAP/vicmd/❮%f}/(main|viins)/❯%f} '

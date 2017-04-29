@@ -41,6 +41,8 @@ alias gdc='z-git-diff-cached'
 alias gdw='z-git-diff-word'
 alias gdwc='z-git-diff-word-cached'
 
+alias vssh='vagrant ssh'
+
 # NPM Aliases
 alias z-node-list-global='npm list -g --depth=0 2>/dev/null'
 alias z-node-list-local='npm list --depth=0 2>/dev/null'
@@ -76,7 +78,7 @@ alias z-mkdir-parents='mkdir --parents'
 alias z-go-desktop='cd ~/Desktop'
 alias z-go-develop='cd ~/develop'
 
-alias z-shortcuts='alias | grep -E "=['\'']?z-" | grep "^[^=]\+" --color'
+#alias z-shortcuts='alias | grep -E "=['\'']?z-" | grep "^[^=]\+" --color'
 alias z-helpers='alias | grep "^z-" | grep "^[^=]\+" --color'
 
 # Optimized rsync for backup
@@ -97,7 +99,7 @@ alias z-remove-dsstore='find -name .DS_Store -type f | xargs -i rm "{}"'
 
 function githubURL() {
   if git rev-parse --git-dir > /dev/null 2>&1; then
-    following=`git status -sb | head -1 | sed 's/.*\.\.\.//'`
+    following=`git status -sb | head -1 | sed 's/.*\.\.\.//' | sed 's/ \[.\+\?]$//'`
 
     if [[ $following == *"/"* ]]; then
       branch=${following#*/}
@@ -132,23 +134,17 @@ alias cfg='z-git-config-repo'
 alias mkdir='z-mkdir-parents'
 alias github='z-github-repo'
 
-if hash nvim 2>/dev/null; then
-  alias rm=trash
-fi
-
 alias desk='z-go-desktop'
 alias dev='z-go-develop'
-
-## If nvim is available, alias it to vim
-if hash nvim 2>/dev/null; then
-  alias vim=nvim
-  export VISUAL=`which nvim`
-  export EDITOR=`which nvim`
-fi
+alias d2h='diff2html -s side -d word --lm words --su open --sc enabled'
 
 alias Vim=vim
 alias VIm=vim
 alias VIM=vim
+
+export VISUAL=`which vim`
+export EDITOR=`which vim`
+
 alias vimrc='vim ~/.vim/vimrc'
 alias valias='vim ~/.config/alias'
 
@@ -169,6 +165,15 @@ function dk() {
     ex* ) shift 1; command docker exec -it "$@" ;;
     a* ) shift 1;
   esac
+}
+
+function swap() {
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE $2
+}
+
+function commit() {
+    hub browse -- commit/$1
 }
 
 #  Reserved commands:
