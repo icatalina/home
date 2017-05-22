@@ -34,6 +34,10 @@ call vam#ActivateAddons([
   \  'github:pangloss/vim-javascript',
   \  'github:editorconfig/editorconfig-vim',
   \  'github:sheerun/vim-wombat-scheme',
+  \  'github:tpope/vim-fugitive',
+  \  'github:w0rp/ale',
+  \  'github:airblade/vim-gitgutter',
+  \  'github:curist/vim-angular-template',
   \ ], {})
 
 " }}}
@@ -49,6 +53,17 @@ let g:loaded_vimballPlugin = 1
 let g:loaded_zipPlugin = 1
 
 let g:html_indent_tags = 'li\|p'
+
+let g:ale_linters = {
+\   'html': [],
+\}
+
+let g:ale_sign_column_always = 1
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_statusline_format = ['E%d', 'W%d', '']
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+
 " }}}
 " Settings {{{
 set autoread                          " Automatically read files that have been changed on disk
@@ -76,6 +91,7 @@ set shortmess+=TFat
 set showmatch                         " briefly jump to matching paren?
 set sidescrolloff=16                  " Minium number of characters left and right of the cursor
 set showcmd                           " Show (partial) command in the last line of the screen
+set signcolumn=yes                    " Always show sign column
 
 set undofile                          " Use an undo file
 set undodir=~/.vim/undo
@@ -399,6 +415,9 @@ endif
 ""       No width fields allowed.
 set statusline=%f%1*%m%r%0*%q%h%w%=[%l/%L][%3c]%y
 highlight User1 gui=NONE guifg=#f44336 guibg=#383838
+
+hi ALEErrorSign guibg=#242424 guifg=#f44336
+hi ALEWarningSign guibg=#242424 guifg=#eae788
 
 " }}}
 
