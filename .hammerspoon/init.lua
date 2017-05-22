@@ -17,7 +17,7 @@ hs.hotkey.bind(mash, "escape", function()
 end)
 
 -- Show/Hide menu icon
-hs.menuIcon(true)
+hs.menuIcon(false)
 hs.hotkey.bind(mash, "0", function()
   hs.menuIcon(not hs.menuIcon())
 end)
