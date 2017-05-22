@@ -18,7 +18,7 @@ end)
 
 -- Show/Hide menu icon
 hs.menuIcon(false)
-hs.hotkey.bind(mash, "0", function()
+hs.hotkey.bind(mash, "-", function()
   hs.menuIcon(not hs.menuIcon())
 end)
 

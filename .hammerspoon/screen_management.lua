@@ -9,11 +9,11 @@ hs.window.setShadows(false)
 hs.grid.setMargins(hs.geometry.size(0, 0))
 hs.grid.setGrid('4x4')
 
-function push(x, y, w, h)
+function move(x, y, w, h)
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
-  local max = screen:frame()
+  local max = screen:fullFrame()
 
   f.x = max.x + (max.w * x)
   f.y = max.y + (max.h * y)
@@ -22,15 +22,23 @@ function push(x, y, w, h)
   win:setFrame(f)
 end
 
--- Screen half top
-hs.hotkey.bind(localMash, "up", function() push(0,0,1,0.5) end)
--- Screen half bottom
-hs.hotkey.bind(localMash, "down", function() push(0,0.5,1,0.5) end)
+local size = 0.5
 
--- Screen half left
-hs.hotkey.bind(localMash, "left", function() push(0,0,0.5,1) end)
--- Screen half right
-hs.hotkey.bind(localMash, "right", function() push(0.5,0,0.5,1) end)
+hs.hotkey.bind(localMash, "1", function() size = 0.1 end)
+hs.hotkey.bind(localMash, "2", function() size = 0.2 end)
+hs.hotkey.bind(localMash, "3", function() size = 0.3 end)
+hs.hotkey.bind(localMash, "4", function() size = 0.4 end)
+hs.hotkey.bind(localMash, "5", function() size = 0.5 end)
+hs.hotkey.bind(localMash, "6", function() size = 0.6 end)
+hs.hotkey.bind(localMash, "7", function() size = 0.7 end)
+hs.hotkey.bind(localMash, "8", function() size = 0.8 end)
+hs.hotkey.bind(localMash, "9", function() size = 0.9 end)
+hs.hotkey.bind(localMash, "0", function() size = 1.0 end)
+
+hs.hotkey.bind(localMash, "up",    function() move(       0,        0,    1, size) size = 0.5 end)
+hs.hotkey.bind(localMash, "down",  function() move(       0, 1 - size,    1, size) size = 0.5 end)
+hs.hotkey.bind(localMash, "left",  function() move(       0,        0, size,    1) size = 0.5 end)
+hs.hotkey.bind(localMash, "right", function() move(1 - size,        0, size,    1) size = 0.5 end)
 
 -- Screen fullscreen
 hs.hotkey.bind(localMash, "m", function()
