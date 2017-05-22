@@ -1,21 +1,11 @@
 # vim: syntax=sh filetype=sh
 
-# alias gl='git log --'
-# alias gls='git ls --'
-# alias glss='git lss --'
-# alias gc='git commit --'
-# alias gaa='git add -A -- .'
-# alias ga='git add --'
-# alias gdfw='git dfw'
-# alias gdf='git df'
-# alias gch='git checkout'
-# alias gr='git reset'
-
 # Back to suspended job
 alias f='fg'
 
 alias z-copy-one-line-escaped='head -1 | xargs -i printf %q "{}" | tee /dev/tty | pbcopy'
 
+# Git Aliases
 alias z-git='git'
 alias z-git-status='git z-status'
 alias z-git-log='git z-log-20'
@@ -28,6 +18,7 @@ alias z-git-diff-cached='git diff --cached'
 alias z-git-diff-word-cached='git z-diff-word-cached'
 alias z-git-next-file='git diff --name-only | z-copy-one-line-escaped'
 
+# Git Short aliases
 alias g='z-git'
 alias gs='z-git-status'
 alias gls='z-git-log'
@@ -86,9 +77,6 @@ alias z-helpers='alias | grep "^z-" | grep "^[^=]\+" --color'
 # -x: list entries by lines instead of by columns
 # -X: sort alphabetically by entry extension
 alias z-rsyncbackup="rsync --all --almost-all --dereference-command-line -Xxv --numeric-ids --progress -e \"ssh -T -c arcfour -o Compression=no -x\""
-
-# Reload Base16 Shell Theme
-alias b16='source $BASE16_SHELL'
 
 # Pipe to remove the colours
 alias z-remove-colors='sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
