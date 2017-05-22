@@ -427,22 +427,59 @@ if exists('g:colors_name') && g:colors_name == 'wombat'
   set colorcolumn=
 endif
 
+" Checks for a function to exists so the statusline doesn't go crazy
+function! SL(function)
+  if exists('*'.a:function)
+    let l:out = call(a:function,[])
+
+    if l:out != ''
+        return '[' . l:out . ']'
+    endif
+  endif
+
+  return ''
+endfunction
+
+function! Fenc()
+    if &fenc !~ '^$\|utf-8' || &bomb
+        return &fenc . (&bomb ? '-bom' : '' )
+    endif
+
+    return ''
+endfunction
+
+function! Fformat()
+    if &ff != 'unix'
+        return &ff
+    endif
+
+    return ''
+endfunction
+
 " set diffopt+=context:99999
-"" f S   Path to the file in the buffer, as typed or relative to current
-""       directory.
-"" m F   Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
-"" r F   Readonly flag, text is "[RO]".
-"" h F   Help buffer flag, text is "[help]".
-"" w F   Preview window flag, text is "[Preview]".
-"" y F   Type of file in the buffer, e.g., "[vim]".  See 'filetype'.
-"" q S   "[Quickfix List]", "[Location List]" or empty.
-"" l N   Line number.
-"" L N   Number of lines in buffer.
-"" c N   Column number.
-"" = -   Separation point between left and right aligned items.
-""       No width fields allowed.
-set statusline=%f%1*%m%r%0*%q%h%w%=[%l/%L][%3c]%y
-highlight User1 gui=NONE guifg=#f44336 guibg=#383838
+set statusline=\ \ %f                   " relative filename
+set statusline+=%1*                     " (color) red
+set statusline+=%m%r                    " (%m)odified flag (%r)ead only
+set statusline+=%0*                     " (color) default
+set statusline+=%q                      " "[Quickfix List]", "[Location List]" or empty.
+set statusline+=%h                      " Help buffer flag, text is "[help]".
+set statusline+=%w                      " Preview window flag, text is "[Preview]".
+set statusline+=%=                      " Separation point between left and right aligned items.
+set statusline+=%1*                     " (color) red
+set statusline+=%{SL('ALEGetStatusLine')}   " Linting summary
+set statusline+=%{SL('Fenc')}
+set statusline+=%{SL('Fformat')}
+" set statusline+=%{v:register}           " Active register
+set statusline+=%2*                     " (color) green
+set statusline+=%{(&spell?'[spell:'.&spelllang.']':'')}
+set statusline+=%0*                     " (color) default
+set statusline+=[%l/%L]                 " Line number / Number of lines in buffer
+set statusline+=[%3c]                   " Column number
+set statusline+=[#%n]                   " Buffer Number
+set statusline+=%y                      " Type of file in the buffer, e.g., "[vim]".  See 'filetype'.
+
+hi User1 guifg=#f44336 guibg=#444444
+hi User2 guifg=#95e454 guibg=#444444
 
 hi ALEErrorSign guibg=#242424 guifg=#f44336
 hi ALEWarningSign guibg=#242424 guifg=#eae788
