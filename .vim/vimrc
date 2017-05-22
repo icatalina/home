@@ -325,9 +325,9 @@ function! RepositionCursor()
 
   let l:should_reposition_this_file = index(l:file_list, &filetype) == -1
 
-  if !&diff 
+  if !&diff
     \&& l:should_reposition_this_file
-    \&& line("'\"") > 1 
+    \&& line("'\"") > 1
     \&& line("'\"") <= line("$")
     execute "normal! g`\""
   endif
@@ -367,6 +367,7 @@ function! ChangeCWD()
         exec("cd " . g:change_cwd_root_directory)
     endif
 endfunction
+
 " Helper Functions }}}
 " Helper Functions Maps/Autocommands {{{
 
