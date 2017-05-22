@@ -505,5 +505,9 @@ hi ALEWarningSign guibg=#242424 guifg=#eae788
 
 " }}}
 
+if filereadable(expand("~/.local/vimrc"))
+  source ~/.local/vimrc
+endif
+
 command! Vimrc vs ~/.vim/vimrc
 set secure
