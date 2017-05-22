@@ -11,6 +11,8 @@ end
 -- Map Ctrl-[Alt]-Backspace to Delete
 hs.hotkey.bind({'ctrl'}, 'delete', keyCode('forwarddelete'), nil, keyCode('forwarddelete'))
 hs.hotkey.bind({'ctrl', 'alt'}, 'delete', keyCode('forwarddelete', {'alt'}), nil, keyCode('forwarddelete', {'alt'}))
+-- Map Shift-Backspace to Delete
+hs.hotkey.bind({'shift'}, 'delete', keyCode('forwarddelete'), nil, keyCode('forwarddelete'))
 
 -- Map Ctrl-H/J/K/L to Arrow keys
 hs.hotkey.bind({'ctrl'}, 'h', keyCode('left'), nil, keyCode('left'))
@@ -53,3 +55,6 @@ hs.hotkey.bind({'ctrl', 'cmd', 'alt'}, 'h', keyCode('left', {'cmd', 'ctrl', 'alt
 hs.hotkey.bind({'ctrl', 'cmd', 'alt'}, 'j', keyCode('down', {'cmd', 'ctrl', 'alt'}), nil, keyCode('down', {'cmd', 'ctrl', 'alt'}))
 hs.hotkey.bind({'ctrl', 'cmd', 'alt'}, 'k', keyCode('up', {'cmd', 'ctrl', 'alt'}), nil, keyCode('up', {'cmd', 'ctrl', 'alt'}))
 hs.hotkey.bind({'ctrl', 'cmd', 'alt'}, 'l', keyCode('right', {'cmd', 'ctrl', 'alt'}), nil, keyCode('right', {'cmd', 'ctrl', 'alt'}))
+
+-- KBParadise V60 Keyboard - Allow ~ with <shift-esc>
+hs.hotkey.bind({'shift'}, 'escape', keyCode('`', {'shift'}), nil, keyCode('`', {'shift'}))
