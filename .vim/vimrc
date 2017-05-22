@@ -480,6 +480,25 @@ set statusline+=%y                      " Type of file in the buffer, e.g., "[vi
 
 hi User1 guifg=#f44336 guibg=#444444
 hi User2 guifg=#95e454 guibg=#444444
+hi StatusLine guifg=#eeeeee
+
+hi Normal guifg=#e3e0d7 guibg=#242424 gui=none
+hi LineNr guifg=#4a4a4a guibg=#202020 gui=none
+
+hi CursorLine guibg=#303030 gui=NONE
+hi CursorLineNr guifg=#ffffff guibg=#303030 gui=NONE
+
+hi DiffAdd    guibg=#2a0d6a
+hi DiffChange guibg=#382a37
+hi DiffDelete guifg=#191919 guibg=#3e3969
+hi DiffText   guibg=#73186e
+
+hi SpellBad   guifg=#f44336 guibg=NONE
+hi! link SpellCap SpellBad
+hi! link SpellRare SpellBad
+hi! link SpellLocal SpellBad
+
+hi NonText guibg=NONE guifg=#444444
 
 hi ALEErrorSign guibg=#242424 guifg=#f44336
 hi ALEWarningSign guibg=#242424 guifg=#eae788
