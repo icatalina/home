@@ -157,8 +157,6 @@ let g:UltiSnipsListSnippets='<s-right>'
 "@ SPACE-D Inserts JSDoc Block
 nmap <silent> <leader>d <Plug>(jsdoc)
 
-"@ * Prevent jump to next match on *
-nnoremap * *N
 "@ Y Make (Y)ank behave like (D)elete or (C)hange
 nnoremap Y y$
 "@ BS Hide search results
@@ -179,7 +177,28 @@ nnoremap <leader><C-C> :bd!#\|echo 'Force Closed! '.expand('#')<CR>
 "@ CTRL-S Search
 nnoremap <C-S> :%s//
 "@ v_CTRL-S Search visually selected string
-xnoremap <C-S> y:%s/<C-R>=escape(@", '/.')<CR>/
+
+function! GetVisualSelection()
+  try
+    let l:a_save = @a
+    silent normal! gv"aygv
+    return @a
+  finally
+    let @a = l:a_save
+  endtry
+endfunction
+
+function! SearchEscape(reg)
+    return substitute(escape(a:reg, '\'), '\n', '\\n', 'g')
+endfunction
+
+function! SetSearch(reg)
+    call setreg('/', "\\V" . SearchEscape(a:reg))
+endfunction
+
+function! SetSearchWord(reg)
+    call setreg('/', "\\V\\<" . SearchEscape(a:reg) . "\\>")
+endfunction
 
 "@ c_CTRL-P Up
 cnoremap <C-P> <Up>
@@ -191,7 +210,8 @@ cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
 "@ v_* Search visually selected text
-xnoremap <silent> * "zy:call setreg('/', "\\V" . substitute(escape(@z, '\'), '\n', '\\n', 'g'))\|set hlsearch<CR>
+xnoremap <silent> * :call SetSearch(GetVisualSelection())\|set hlsearch<CR>
+nnoremap <silent> * :call SetSearchWord(expand("<cword>"))\|set hlsearch<CR>
 
 "@ s Stamp text to terminal
 nnoremap s :let @*=@"<cr>:echo 'Stamped'<cr>
