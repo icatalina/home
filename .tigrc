@@ -40,3 +40,8 @@ bind blob H @hub browse -- tree/%(commit)/%(file)
 
 bind generic c @sh -c "printf '%s' %(commit) | pbcopy"
 bind stage <Enter> :/^@@
+
+color cursor black green
+color status green default
+color title-focus black white
+color title-blur white black
